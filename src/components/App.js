@@ -2,9 +2,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, NavLink, Route } from 'react-router-dom';
-import UserHome from './user/UserHomePage';
-import AdminHome from './admin/AdminHomePage';
-import SuperAdminHome from './superadmin/SuperAdminHomePage';
+import LandingPage from './common/LandingPage';
+import UserHomePage from './user/UserHomePage';
+import AuctionItemPage from './user/AuctionItemPage';
+import AdminHomePage from './admin/AdminHomePage';
+import SuperAdminHomePage from './superadmin/SuperAdminHomePage';
 import NotFoundPage from './common/NotFoundPage';
 
 // This is a class-based component because the current
@@ -16,17 +18,12 @@ class App extends React.Component {
     const activeStyle = { color: 'blue' };
     return (
       <div>
-        <div>
-          <NavLink exact to="/" activeStyle={activeStyle}>User's home</NavLink>
-          {' | '}
-          <NavLink exact to="/admin" activeStyle={activeStyle}>Admin's home</NavLink>
-          {' | '}
-          <NavLink exact to="/superadmin" activeStyle={activeStyle}>Super admin's home</NavLink>
-        </div>
         <Switch>
-          <Route exact path="/" component={UserHome} />
-          <Route exact path="/admin" component={AdminHome} />
-          <Route exact path="/superadmin" component={SuperAdminHome} />
+          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/user" component={UserHomePage} />
+          <Route exact path="/user/auction/:id" component={AuctionItemPage} />
+          <Route exact path="/admin" component={AdminHomePage} />
+          <Route exact path="/superadmin" component={SuperAdminHomePage} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>

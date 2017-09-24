@@ -1,21 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AuctionItemRow from './AuctionItemRow';
+import { CardDeck } from 'reactstrap';
+import AuctionItemCard from './AuctionItemCard';
 
 const AuctionItemsList = ({auctionItems}) => {
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>&nbsb;</th>
-          <th>Title</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-      {auctionItems.map(auctionItem => <AuctionItemRow key={auctionItem.id} auctionItem={auctionItem}/>)}
-      </tbody>
-    </table>
+    <CardDeck>
+      {auctionItems.map(auctionItem => <AuctionItemCard key={auctionItem.id} auctionItem={auctionItem}/>)}
+    </CardDeck>
   );
 };
 
