@@ -1,3 +1,4 @@
 export default {
-  auctionItems: []
+  auctionItems: [],
+  auctionItem: {}
 };

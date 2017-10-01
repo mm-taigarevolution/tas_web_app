@@ -1,4 +1,3 @@
-import * as ActionTypes from '../common/actionTypes';
 import { createStore } from 'redux';
 import initialState from '../reducers/initialState';
 import rootReducer from './../reducers';
@@ -53,6 +52,37 @@ describe('Store', () => {
 
     const actual = store.getState().auctionItems;
     const expected = auctionItems;
+
+    expect(actual).toEqual(expected);
+  });
+  it('should receive one auction item passed as an action', () => {
+    const store = createStore(rootReducer, initialState);
+
+    const singleAuctionItem = {
+        id: "1",
+        status: "active",
+        thumbnailUrl: "http://kotisivukone.fi/files/astiataivas.tarjoaa.fi/Arabia/Maitokannut_soppaskoolit_kastikekannut/ae030.jpg",
+        title: "Arabia maitokannu",
+        description: "Yyberhjuva kannu josta voi kipata vaikka korpikuusen kyyneleitä.",
+        startPrice: "0",
+        currentPrice: "100",
+        minimumBidRaise: "10",
+        auctionStart: "2017-10-01",
+        auctionEnd: "2017-12-01",
+        createdBy: "Keisari ite",
+        created: "2017-01-10",
+        updated: "2017-01-10",
+        itemLocation: "Huttukylä, Kiiminki",
+        contactInfo: "Soita +358504872100 ja kysy lisää.",
+        paymentInfo: "Voit maksaa luonnossa.",
+        deliveryInfo: "Voin tuoda tuotteen vaikka Närpiölle."
+    }
+
+    const action = auctionItemActions.getAuctionItemByIdSucceeded(singleAuctionItem);
+    store.dispatch(action);
+
+    const actual = store.getState().auctionItem;
+    const expected = singleAuctionItem;
 
     expect(actual).toEqual(expected);
   });

@@ -1,13 +1,10 @@
 /* eslint-disable import/no-named-as-default */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Switch, NavLink, Route } from 'react-router-dom';
-import LandingPage from './common/LandingPage';
-import UserHomePage from './user/UserHomePage';
-import AuctionItemPage from './user/AuctionItemPage';
-import AdminHomePage from './admin/AdminHomePage';
-import SuperAdminHomePage from './superadmin/SuperAdminHomePage';
-import NotFoundPage from './common/NotFoundPage';
+import { Switch, Route } from 'react-router-dom';
+import AuctionsPage from './pages/AuctionsPage';
+import AuctionDetailsPage from './pages/AuctionDetailsPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
@@ -19,11 +16,8 @@ class App extends React.Component {
     return (
       <div>
         <Switch>
-          <Route exact path="/" component={LandingPage} />
-          <Route exact path="/user" component={UserHomePage} />
-          <Route exact path="/user/auction/:id" component={AuctionItemPage} />
-          <Route exact path="/admin" component={AdminHomePage} />
-          <Route exact path="/superadmin" component={SuperAdminHomePage} />
+          <Route exact path="/" component={AuctionsPage} />
+          <Route exact path="/:id" component={AuctionDetailsPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>

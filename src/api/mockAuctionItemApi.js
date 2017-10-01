@@ -30,14 +30,51 @@ const auctionItems = [
     currentPrice: "200",
     auctionStart: "2017-09-20",
     auctionEnd: "2017-11-20"
+  },
+  {
+    id: "4",
+    status: "active",
+    thumbnailUrl: "http://www.suomenantiikki.fi/images/4591%20lasi%2014.jpg",
+    title: "Iittalan lasia",
+    currentPrice: "200",
+    auctionStart: "2017-10-01",
+    auctionEnd: "2017-11-20"
   }
 ];
+
+const singleAuctionItem = {
+    id: "1",
+    status: "active",
+    thumbnailUrl: "http://www.suomenantiikki.fi/images/4591%20lasi%2014.jpg",
+    imageUrls: [],
+    title: "Iittalan lasia",
+    description: "Yyberhjuvat kupit joista voi kipata vaikka korpikuusen kyyneleitä.",
+    startPrice: "0",
+    currentPrice: "100",
+    minimumBidRaise: "10",
+    auctionStart: "2017-10-01",
+    auctionEnd: "2017-12-01",
+    createdBy: "Keisari ite",
+    created: "2017-01-10",
+    updated: "2017-01-10",
+    itemLocation: "Huttukylä, Kiiminki",
+    contactInfo: "Soita +358504872100 ja kysy lisää.",
+    paymentInfo: "Voit maksaa käyttäen integroituja maksutapoja.",
+    deliveryInfo: "Postitse tai nouto ym. osoitteesta"
+}
 
 class AuctionItemApi {
   static getAuctionItems() {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(Object.assign([], auctionItems));
+      }, delay);
+    });
+  }
+  static getAuctionItemById(id) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(Object.assign({}, singleAuctionItem));
       }, delay);
     });
   }

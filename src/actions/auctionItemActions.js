@@ -13,12 +13,34 @@ export function getAuctionItemsFailed(error) {
   };
 }
 
+export function getAuctionItemByIdSucceeded(auctionItem) {
+  return {
+    type: types.GET_AUCTION_ITEM_BY_ID_SUCCEEDED, auctionItem
+  };
+}
+
+export function getAuctionItemByIdFailed(error) {
+  return {
+    type: types.GET_AUCTION_ITEM_BY_ID_FAILED, error
+  };
+}
+
 export function getAuctionItems() {
   return function(dispatch) {
     return auctionItemApi.getAuctionItems().then(auctionItems => {
       dispatch(getAuctionItemsSucceeded(auctionItems));
     }).catch(error => {
       dispatch(getAuctionItemsFailed(error));
+    });
+  };
+}
+
+export function getAuctionItemById(id) {
+  return function(dispatch) {
+    return auctionItemApi.getAuctionItemById(id).then(auctionItem => {
+      dispatch(getAuctionItemByIdSucceeded(auctionItem));
+    }).catch(error => {
+      dispatch(getAuctionItemByIdFailed(error));
     });
   };
 }
