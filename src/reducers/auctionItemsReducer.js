@@ -7,10 +7,10 @@ import initialState from './initialState';
 // create a copy of the state passed and set new values on the copy.
 // Note using Object.assign to create a copy of current state
 // and update values on the copy.
-export default function auctionItemsReducer(state = [], action) {
+export default function auctionItemsReducer(state = initialState.auctionItems, action) {
   switch (action.type) {
     case GET_AUCTION_ITEMS_SUCCEEDED:
-      return action.auctionItems;
+      return Object.assign([], action.auctionItems);
     default:
       return state;
   }

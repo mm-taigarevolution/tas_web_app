@@ -5,40 +5,62 @@ import {bindActionCreators} from 'redux';
 import * as auctionItemActions from '../../actions/auctionItemActions';
 import { CardDeck } from 'reactstrap';
 import AuctionItemCard from '../controls/AuctionItemCard';
+import SearchBar from '../controls/SearchBar';
 
 class AuctionsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      auctionItems: Object.assign([], props.auctionItems)
+      filteredAuctionItems: []
     };
 
     this.onDetailsRequired = this.onDetailsRequired.bind(this);
-  }
-
-  onDetailsRequired(event) {
-    this.context.router.history.push('/'+event.target.value);
+    this.onKeywordChanged = this.onKeywordChanged.bind(this);
   }
 
   componentDidMount() {
     this.props.actions.getAuctionItems();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({filteredAuctionItems: nextProps.filteredAuctionItems});
+  }
+
+  onDetailsRequired(event) {
+    this.context.router.history.push('/'+event.target.value);
+  }
+
+  onKeywordChanged(event) {
+    this.props.actions.updateKeyword(event.target.value.toLowerCase());
+  }
+
   render() {
-    const {auctionItems} = this.props;
+    let hasItems = this.props.filteredAuctionItems.length > 0;
+    let items = this.props.filteredAuctionItems;
+    
     return (
-      <CardDeck>
-        {auctionItems.map(auctionItem =>
-          <AuctionItemCard key={auctionItem.id}
-                           auctionItem={auctionItem}
-                           onDetailsRequired={this.onDetailsRequired}/>)}
-      </CardDeck>
+      <div>
+        <SearchBar onKeywordChanged={this.onKeywordChanged}/>
+        {hasItems == false &&
+          <div>
+            <p>No results</p>
+          </div>
+        }
+        { hasItems &&
+          <CardDeck>
+            {items.map(auctionItem =>
+              <AuctionItemCard key={auctionItem.id}
+                               auctionItem={auctionItem}
+                               onDetailsRequired={this.onDetailsRequired}/>)}
+          </CardDeck>
+        }
+      </div>
     );
   }
 }
 
 AuctionsPage.propTypes = {
-  auctionItems: PropTypes.array.isRequired,
+  filteredAuctionItems: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired
 };
 
@@ -47,8 +69,17 @@ AuctionsPage.contextTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
+  let filtered = [];
+  if(state.keyword.length > 0) {
+    filtered = state.auctionItems.filter(auctionItem => auctionItem.title.toLowerCase().includes(state.keyword));
+  }
+
+  else {
+    filtered = state.auctionItems;
+  }
+
   return {
-    auctionItems: Object.assign([], state.auctionItems)
+    filteredAuctionItems: filtered
   };
 }
 

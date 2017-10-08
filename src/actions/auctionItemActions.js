@@ -25,6 +25,12 @@ export function getAuctionItemByIdFailed(error) {
   };
 }
 
+export function updateKeywordSucceeded(keyword) {
+  return {
+    type: types.PUT_KEYWORD_SUCCEEDED, keyword
+  };
+}
+
 export function getAuctionItems() {
   return function(dispatch) {
     return auctionItemApi.getAuctionItems().then(auctionItems => {
@@ -42,5 +48,11 @@ export function getAuctionItemById(id) {
     }).catch(error => {
       dispatch(getAuctionItemByIdFailed(error));
     });
+  };
+}
+
+export function updateKeyword(keyword) {
+  return function(dispatch) {
+    dispatch(updateKeywordSucceeded(keyword));
   };
 }
