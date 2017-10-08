@@ -1,58 +1,44 @@
 import * as types from '../common/actionTypes';
 import auctionItemApi from '../api/mockAuctionItemApi';
+import {setBusy} from '../actions/busyActions';
+import {errorOccurred} from '../actions/errorActions';
 
-export function getAuctionItemsSucceeded(auctionItems) {
+export function getAuctionItemsSucceeded(value) {
   return {
-    type: types.GET_AUCTION_ITEMS_SUCCEEDED, auctionItems
+    type: types.GET_AUCTION_ITEMS, value
   };
 }
 
-export function getAuctionItemsFailed(error) {
+export function getAuctionItemByIdSucceeded(value) {
   return {
-    type: types.GET_AUCTION_ITEMS_FAILED, error
-  };
-}
-
-export function getAuctionItemByIdSucceeded(auctionItem) {
-  return {
-    type: types.GET_AUCTION_ITEM_BY_ID_SUCCEEDED, auctionItem
-  };
-}
-
-export function getAuctionItemByIdFailed(error) {
-  return {
-    type: types.GET_AUCTION_ITEM_BY_ID_FAILED, error
-  };
-}
-
-export function updateKeywordSucceeded(keyword) {
-  return {
-    type: types.PUT_KEYWORD_SUCCEEDED, keyword
+    type: types.GET_AUCTION_ITEM_BY_ID, value
   };
 }
 
 export function getAuctionItems() {
   return function(dispatch) {
+    dispatch(setBusy(true));
+    dispatch(errorOccurred(false));
     return auctionItemApi.getAuctionItems().then(auctionItems => {
       dispatch(getAuctionItemsSucceeded(auctionItems));
-    }).catch(error => {
-      dispatch(getAuctionItemsFailed(error));
+      dispatch(setBusy(false));
+    }).catch(() => {
+      dispatch(errorOccurred(true));
+      dispatch(setBusy(false));
     });
   };
 }
 
 export function getAuctionItemById(id) {
   return function(dispatch) {
+    dispatch(setBusy(true));
+    dispatch(errorOccurred(false));
     return auctionItemApi.getAuctionItemById(id).then(auctionItem => {
       dispatch(getAuctionItemByIdSucceeded(auctionItem));
-    }).catch(error => {
-      dispatch(getAuctionItemByIdFailed(error));
+      dispatch(setBusy(false));
+    }).catch(() => {
+      dispatch(errorOccurred(true));
+      dispatch(setBusy(false));
     });
-  };
-}
-
-export function updateKeyword(keyword) {
-  return function(dispatch) {
-    dispatch(updateKeywordSucceeded(keyword));
   };
 }

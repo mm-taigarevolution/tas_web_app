@@ -1,4 +1,4 @@
-import {PUT_KEYWORD_SUCCEEDED} from '../common/actionTypes';
+import {UPDATE_KEYWORD} from '../common/actionTypes';
 import initialState from './initialState';
 
 // IMPORTANT: Note that with Redux, state should NEVER be changed.
@@ -8,8 +8,8 @@ import initialState from './initialState';
 // and update values on the copy.
 export default function keywordReducer(state = initialState.keyword, action) {
   switch (action.type) {
-    case PUT_KEYWORD_SUCCEEDED:
-      return action.keyword;
+    case UPDATE_KEYWORD:
+      return action.value;
     default:
       return state;
   }

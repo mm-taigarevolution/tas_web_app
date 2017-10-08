@@ -1,5 +1,4 @@
-import {GET_AUCTION_ITEMS_SUCCEEDED,
-        GET_AUCTION_ITEMS_FAILED} from '../common/actionTypes';
+import {GET_AUCTION_ITEMS} from '../common/actionTypes';
 import initialState from './initialState';
 
 // IMPORTANT: Note that with Redux, state should NEVER be changed.
@@ -9,8 +8,8 @@ import initialState from './initialState';
 // and update values on the copy.
 export default function auctionItemsReducer(state = initialState.auctionItems, action) {
   switch (action.type) {
-    case GET_AUCTION_ITEMS_SUCCEEDED:
-      return Object.assign([], action.auctionItems);
+    case GET_AUCTION_ITEMS:
+      return Object.assign([], action.value);
     default:
       return state;
   }

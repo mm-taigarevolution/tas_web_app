@@ -1,5 +1,7 @@
 export default {
   auctionItems: [],
   keyword: "",
-  auctionItem: {}
+  auctionItem: {},
+  numberOfBusyOperations: 0,
+  errorOccurred: false
 };

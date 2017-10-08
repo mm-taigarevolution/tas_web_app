@@ -9,13 +9,22 @@ class AuctionDetailsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      auctionItemId: props.auctionItemId,
-      auctionItem: Object.assign({}, props.auctionItem)
+      auctionItemId: "",
+      auctionItem: {},
+      isBusy: false,
+      errorOccurred: false
     };
   }
 
   componentDidMount() {
-    this.props.actions.getAuctionItemById(this.state.auctionItemId);
+    this.props.auctionItemActions.getAuctionItemById(this.state.auctionItemId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({auctionItemId: nextProps.auctionItemId,
+                   auctionItem: nextProps.auctionItem,
+                   isBusy: nextProps.isBusy,
+                   errorOccurred: nextProps.errorOccurred});
   }
 
   onNewBidRequired(event) {
@@ -23,11 +32,30 @@ class AuctionDetailsPage extends React.Component {
   }
 
   render() {
-    const {auctionItem} = this.props;
+    let isBusy = this.props.isBusy;
+    let errorOccurred = this.props.errorOccurred;
+    let auctionItem = this.props.auctionItem;
+
     return (
       <div>
-        <AuctionItemDetails auctionItem={auctionItem}
-                            onNewBidRequired={this.onNewBidRequired}/>
+        {isBusy &&
+          <p>Loading...</p>
+        }
+        {!isBusy &&
+           <div>
+             {errorOccurred == false &&
+               <div>
+                 <AuctionItemDetails auctionItem={auctionItem}
+                                     onNewBidRequired={this.onNewBidRequired}/>
+               </div>
+             }
+             {errorOccurred == true &&
+               <div>
+                 <p>Service is unavailable at the moment. Please try again later.</p>
+               </div>
+             }
+           </div>
+        }
       </div>
     );
   }
@@ -36,19 +64,27 @@ class AuctionDetailsPage extends React.Component {
 AuctionDetailsPage.propTypes = {
   auctionItemId: PropTypes.string.isRequired,
   auctionItem: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  isBusy: PropTypes.bool.isRequired,
+  errorOccurred: PropTypes.bool.isRequired,
+  auctionItemActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
+  let auctionItemId = ownProps.match.params.id;
+  let busy = state.numberOfBusyOperations > 0;
+  let errorOccurred = state.errorOccurred;
+
   return {
-    auctionItem: Object.assign({}, state.auctionItem),
-    auctionItemId: ownProps.match.params.id
+    auctionItemId: auctionItemId,
+    auctionItem: state.auctionItem,
+    isBusy: busy,
+    errorOccurred: errorOccurred
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(auctionItemActions, dispatch)
+    auctionItemActions: bindActionCreators(auctionItemActions, dispatch)
   };
 }
 

@@ -9,7 +9,7 @@ const SearchBar = ({onKeywordChanged}) => {
              onChange={onKeywordChanged}/>
     </div>
   );
-}
+};
 
 SearchBar.propTypes = {
   onKeywordChanged: PropTypes.func.isRequired

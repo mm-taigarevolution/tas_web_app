@@ -1,4 +1,4 @@
-import {GET_AUCTION_ITEM_BY_ID} from '../common/actionTypes';
+import {SET_BUSY} from '../common/actionTypes';
 import initialState from './initialState';
 
 // IMPORTANT: Note that with Redux, state should NEVER be changed.
@@ -6,10 +6,12 @@ import initialState from './initialState';
 // create a copy of the state passed and set new values on the copy.
 // Note using Object.assign to create a copy of current state
 // and update values on the copy.
-export default function auctionItemReducer(state = initialState.auctionItem, action) {
+export default function busyReducer(state = initialState.numberOfBusyOperations, action) {
   switch (action.type) {
-    case GET_AUCTION_ITEM_BY_ID:
-      return Object.assign({}, action.value);
+    case SET_BUSY:
+      if(action.value == true)
+        return state + 1;
+      return state - 1;
     default:
       return state;
   }
