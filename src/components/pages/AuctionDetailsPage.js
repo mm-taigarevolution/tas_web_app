@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as auctionItemActions from '../../actions/auctionItemActions';
-import AuctionItemDetails from '../controls/AuctionItemDetails';
+import AuctionDetailsItem from '../controls/AuctionDetailsItem';
+import {UncontrolledAlert} from 'reactstrap';
 
 class AuctionDetailsPage extends React.Component {
   constructor(props, context) {
@@ -27,14 +28,15 @@ class AuctionDetailsPage extends React.Component {
                    errorOccurred: nextProps.errorOccurred});
   }
 
-  onNewBidRequired(event) {
-    // TODO: add implementation
+ onNewBidRequired(event) {
+    doAlert();
   }
 
   render() {
     let isBusy = this.props.isBusy;
     let errorOccurred = this.props.errorOccurred;
     let auctionItem = this.props.auctionItem;
+    let showAlert = this.props.showAlert;
 
     return (
       <div>
@@ -45,8 +47,8 @@ class AuctionDetailsPage extends React.Component {
            <div>
              {errorOccurred == false &&
                <div>
-                 <AuctionItemDetails auctionItem={auctionItem}
-                                     onNewBidRequired={this.onNewBidRequired}/>
+                   <AuctionDetailsItem auctionItem={auctionItem}
+                                       onNewBidRequired={this.onNewBidRequired}/>
                </div>
              }
              {errorOccurred == true &&
@@ -83,9 +85,18 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
+  debugger;
   return {
     auctionItemActions: bindActionCreators(auctionItemActions, dispatch)
   };
+}
+
+function doAlert() {
+  return (
+    <UncontrolledAlert color="info">
+      I am an alert and I can be dismissed!
+    </UncontrolledAlert>
+  );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuctionDetailsPage);

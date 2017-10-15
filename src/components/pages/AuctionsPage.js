@@ -5,20 +5,23 @@ import {bindActionCreators} from 'redux';
 import * as auctionItemActions from '../../actions/auctionItemActions';
 import * as keywordActions from '../../actions/keywordActions';
 import { CardDeck } from 'reactstrap';
-import AuctionItemCard from '../controls/AuctionItemCard';
+import AuctionListItem from '../controls/AuctionListItem';
 import SearchBar from '../controls/SearchBar';
+import Header from '../controls/Header';
 
 class AuctionsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       filteredAuctionItems: [],
+      keyword: "",
       isBusy: false,
       errorOccurred: false
     };
 
     this.onDetailsRequired = this.onDetailsRequired.bind(this);
     this.onKeywordChanged = this.onKeywordChanged.bind(this);
+    this.onSearchButtonClicked = this.onSearchButtonClicked.bind(this);
   }
 
   //
@@ -38,13 +41,21 @@ class AuctionsPage extends React.Component {
   // Event handlers from stateless components
   //
   onDetailsRequired(event) {
-    this.context.router.history.push('/'+event.target.value);
+    debugger;
+    this.context.router.history.push('/'+event.target.parentElement.id);
   }
 
   onKeywordChanged(event) {
-    this.props.keywordActions.updateKeyword(event.target.value.toLowerCase());
+    this.setState({keyword: event.target.value.toLowerCase()});
+
+    if(event.target.value.length == 0) {
+      this.props.keywordActions.updateKeyword(this.state.keyword);
+    }
   }
 
+  onSearchButtonClicked(event) {
+    this.props.keywordActions.updateKeyword(this.state.keyword);
+  }
   //
   // Rendering
   //
@@ -56,7 +67,9 @@ class AuctionsPage extends React.Component {
 
     return (
       <div>
-        <SearchBar onKeywordChanged={this.onKeywordChanged}/>
+        <Header/>
+        <SearchBar onKeywordChanged={this.onKeywordChanged}
+                   onSearchButtonClicked={this.onSearchButtonClicked}/>
         {isBusy &&
           <p>Loading...</p>
         }
@@ -72,7 +85,7 @@ class AuctionsPage extends React.Component {
                 {hasItems &&
                   <CardDeck>
                     {items.map(auctionItem =>
-                      <AuctionItemCard key={auctionItem.id}
+                      <AuctionListItem key={auctionItem.id}
                                        auctionItem={auctionItem}
                                        onDetailsRequired={this.onDetailsRequired}/>)}
                   </CardDeck>
@@ -95,11 +108,12 @@ class AuctionsPage extends React.Component {
 // Prop types for the page
 //
 AuctionsPage.propTypes = {
-  filteredAuctionItems: PropTypes.array.isRequired,
-  isBusy: PropTypes.bool.isRequired,
-  errorOccurred: PropTypes.bool.isRequired,
-  auctionItemActions: PropTypes.object.isRequired,
-  keywordActions: PropTypes.object.isRequired,
+  filteredAuctionItems: PropTypes.array,
+  keyword: PropTypes.string,
+  isBusy: PropTypes.bool,
+  errorOccurred: PropTypes.bool,
+  auctionItemActions: PropTypes.object,
+  keywordActions: PropTypes.object,
 };
 
 //

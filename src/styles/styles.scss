@@ -28,5 +28,46 @@ h2 {
 input.small { width: 46px; }
 
 .card {
-  margin: 20px;
+  margin: 10px;
+  min-width: 260px;
+}
+
+.card.sm {
+  max-width: 260px;
+}
+
+.card.lg {
+  max-width: 100%;
+}
+
+.card-img-list {
+  width: 258px;
+  height: 258px;
+}
+
+.card-st-list-price {
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  color: black;
+}
+
+.card-st-list-time-remaining {
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  color: black;
+}
+
+.card-st-details-price {
+  margin: 5px 5px 10px 10px;
+  font-weight: bold;
+  font-size: 32px;
+  color: orange;
+}
+
+.card-st-details-time-remaining {
+  margin: 5px 5px 10px 10px;
+  font-size: 14px;
+  color: gray;
 }
