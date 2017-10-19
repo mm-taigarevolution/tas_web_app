@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button, UncontrolledCarousel, CarouselItem } from 'reactstrap';
+import TimeRemainingCtrl from '../controls/TimeRemainingCtrl';
 
 const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
   let autoPlay = false;
@@ -28,7 +29,8 @@ const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
             <Button color="warning"
                     onClick={onNewBidRequired}
                     value={auctionItem.id}>Make a bid</Button>
-            <CardText className="card-st-details-time-remaining">Time remaining {auctionItem.auctionEnd}</CardText>
+            <CardText className="card-st-details-time-remaining">Time remaining</CardText>
+            <TimeRemainingCtrl auctionItem={auctionItem}></TimeRemainingCtrl>
           </Col>
         </Row>
       </CardBody>

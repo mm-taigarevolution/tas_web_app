@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as auctionItemActions from '../../actions/auctionItemActions';
 import * as keywordActions from '../../actions/keywordActions';
+import * as timerActions from '../../actions/timerActions';
 import { CardDeck } from 'reactstrap';
 import AuctionListItem from '../controls/AuctionListItem';
 import SearchBar from '../controls/SearchBar';
@@ -37,11 +38,14 @@ class AuctionsPage extends React.Component {
                    errorOccurred: nextProps.errorOccurred});
   }
 
+  componentWillUnmount() {
+    this.props.timerActions.stopTimer();
+  }
+
   //
   // Event handlers from stateless components
   //
   onDetailsRequired(event) {
-    debugger;
     this.context.router.history.push('/'+event.target.parentElement.id);
   }
 
@@ -114,6 +118,7 @@ AuctionsPage.propTypes = {
   errorOccurred: PropTypes.bool,
   auctionItemActions: PropTypes.object,
   keywordActions: PropTypes.object,
+  timerActions: PropTypes.object
 };
 
 //
@@ -153,7 +158,8 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     auctionItemActions: bindActionCreators(auctionItemActions, dispatch),
-    keywordActions: bindActionCreators(keywordActions, dispatch)
+    keywordActions: bindActionCreators(keywordActions, dispatch),
+    timerActions: bindActionCreators(timerActions, dispatch)
   };
 }
 

@@ -85,7 +85,6 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
-  debugger;
   return {
     auctionItemActions: bindActionCreators(auctionItemActions, dispatch)
   };

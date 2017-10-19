@@ -3,3 +3,6 @@ export const GET_AUCTION_ITEM_BY_ID = 'GET_AUCTION_ITEM_BY_ID';
 export const UPDATE_KEYWORD = 'UPDATE_KEYWORD';
 export const SET_BUSY = 'SET_BUSY';
 export const ERROR_OCCURRED = 'ERROR_OCCURRED';
+export const TIMER_START = 'TIMER_START';
+export const TIMER_TICK = 'TIMER_TICK';
+export const TIMER_STOP = 'TIMER_STOP';
