@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button, UncontrolledCarousel, CarouselItem } from 'reactstrap';
-import TimeRemainingCtrl from '../controls/TimeRemainingCtrl';
+import TimeRemaining from '../controls/TimeRemaining';
+import BidHistory from '../controls/BidHistory';
 
 const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
   let autoPlay = false;
   let carouselItems = [];
+  let useListStyle = false;
+  let bidDisabled = !auctionItem.active;
+  let numberOfAuctions = auctionItem.bids.length;
+  let currentPrice = auctionItem.bids.length > 0 ? auctionItem.bids[auctionItem.bids.length-1].bid: auctionItem.startPrice;
 
   if(auctionItem.imageUrls != undefined)
   {
@@ -16,33 +21,67 @@ const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
     });
   }
 
+  const chapterStyle = {
+    margin: '10px 0px 0px 0px',
+    padding: '10px',
+    border: '1px dotted lightgray',
+    width: '100%'
+  };
+
+  const chapterTitleStyle = {
+    margin: '5px 0px 0px 0px',
+    width: '100%'
+  };
+
+  const chapterBodyStyle = {
+    margin: '10px 0px 0px 0px',
+    width: '100%'
+  };
+
   return (
     <Card className="lg">
       <CardBody>
         <Row>
-          <Col className="text-leftt">
+          <Col className="text-left">
             <CardTitle>{auctionItem.title}</CardTitle>
             <CardSubtitle>{auctionItem.itemLocation}</CardSubtitle>
           </Col>
           <Col className="text-right">
-            <CardSubtitle className="card-st-details-price">{auctionItem.currentPrice} €</CardSubtitle>
-            <Button color="warning"
+            <CardSubtitle className="card-st-details-price">{currentPrice} €</CardSubtitle>
+            <Button disabled={bidDisabled}
                     onClick={onNewBidRequired}
                     value={auctionItem.id}>Make a bid</Button>
-            <CardText className="card-st-details-time-remaining">Time remaining</CardText>
-            <TimeRemainingCtrl auctionItem={auctionItem}></TimeRemainingCtrl>
+                  <TimeRemaining  days={auctionItem.bid_time_remaining_days}
+                                  hours={auctionItem.bid_time_remaining_hours}
+                                  minutes={auctionItem.bid_time_remaining_minutes}
+                                  seconds={auctionItem.bid_time_remaining_seconds}
+                                  active={auctionItem.active}
+                                  useListStyle={useListStyle}/>
           </Col>
         </Row>
-      </CardBody>
-      <CardBody>
-        <UncontrolledCarousel items={carouselItems}
-                              autoPlay={autoPlay}/>
-      </CardBody>
-      <CardBody>
-        <CardText>{auctionItem.description}</CardText>
-        <CardText>{auctionItem.contactInfo}</CardText>
-        <CardText>{auctionItem.deliveryInfo}</CardText>
-        <CardText>{auctionItem.paymentInfo}</CardText>
+        <Row>
+          <UncontrolledCarousel items={carouselItems}
+                                autoPlay={autoPlay}/>
+          <div style={chapterStyle}>
+            <CardSubtitle style={chapterTitleStyle}>Description</CardSubtitle>
+            <CardText style={chapterBodyStyle}>{auctionItem.description}</CardText>
+          </div>
+          <div style={chapterStyle}>
+            <CardSubtitle style={chapterTitleStyle}>Delivery info</CardSubtitle>
+            <CardText style={chapterBodyStyle}>{auctionItem.deliveryInfo}</CardText>
+          </div>
+          <div style={chapterStyle}>
+            <CardSubtitle style={chapterTitleStyle}>Payment info</CardSubtitle>
+            <CardText style={chapterBodyStyle}>{auctionItem.paymentInfo}</CardText>
+          </div>
+          <div style={chapterStyle}>
+            <CardSubtitle style={chapterTitleStyle}>Contact info</CardSubtitle>
+            <CardText style={chapterBodyStyle}>{auctionItem.contactInfo}</CardText>
+          </div>
+          <div style={chapterStyle}>
+            <BidHistory bids={auctionItem.bids}/>
+          </div>
+        </Row>
       </CardBody>
     </Card>
   );

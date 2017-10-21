@@ -7,7 +7,6 @@ export function startTimer() {
     clearInterval(timer);
     timer = setInterval(() => dispatch(tick()), 1000);
     dispatch({ type: types.TIMER_START });
-    dispatch(tick());
   };
 }
 

@@ -6,68 +6,63 @@ import delay from '../common/delay';
 const auctionItems = [
   {
     id: "1",
-    status: "active",
     thumbnailUrl: "http://kotisivukone.fi/files/astiataivas.tarjoaa.fi/Arabia/Maitokannut_soppaskoolit_kastikekannut/ae030.jpg",
-    title: "Arabia maitokannu",
+    title: "Arabia milk can",
     itemLocation: "Oulu",
-    currentPrice: "100",
+    startPrice: 0,
+    bids: [],
     auctionStart: "2017-09-23",
-    auctionEnd: "2017-11-23 17:00",
-    numberOfAuctions: 0
+    auctionEnd: "2017-10-21 12:10"
   },
   {
     id: "2",
-    status: "'active",
     thumbnailUrl: "https://scontent-dft4-1.cdninstagram.com/t51.2885-15/s480x480/e35/14676626_169921290137198_1808913596554412032_n.jpg",
-    title: "Keisarin kaffepannu",
+    title: "Caesar's coffee pot",
     itemLocation: "Jyväskylä",
-    currentPrice: "110",
+    startPrice: 0,
+    bids: [{uid:"G543534534534t43", bid:100, bidTime:"2017-11-20 20:00"}, {uid:"G543534534534t44", bid:110, bidTime:"2017-11-20 20:01"}],
     auctionStart: "2017-09-22",
-    auctionEnd: "2017-11-20 18:00",
-    numberOfAuctions: 1
+    auctionEnd: "2017-10-21 14:10"
   },
   {
     id: "3",
-    status: "active",
     thumbnailUrl: "http://www.gameberry.net/kannet/1578.jpg",
-    title: "Donkkikonkki-peli",
+    title: "Donkey Konkey- console",
     itemLocation: "Kuopio",
-    currentPrice: "200",
+    startPrice: 0,
+    bids: [{uid:"G543534534534t43", bid:100, bidTime:"2017-11-20 20:00"}, {uid:"G543534534534t44", bid:200, bidTime:"2017-11-20 20:01"}],
     auctionStart: "2017-09-20",
-    auctionEnd: "2017-11-20 19:00",
-    numberOfAuctions: 10
+    auctionEnd: "2017-10-20 19:00"
   },
   {
     id: "4",
-    status: "active",
     thumbnailUrl: "http://www.suomenantiikki.fi/images/4591%20lasi%2014.jpg",
-    title: "Iittalan lasia",
+    title: "Set of Iittala glasses",
     itemLocation: "Helsinki",
-    currentPrice: "200",
+    startPrice: 0,
+    bids: [{uid:"G543534534534t43", bid:100, bidTime:"2017-11-20 20:00"}, {uid:"G543534534534t44", bid:200, bidTime:"2017-11-20 20:01"}],
     auctionStart: "2017-10-01",
-    auctionEnd: "2017-11-20 20:00",
-    numberOfAuctions: 10
+    auctionEnd: "2017-11-20 20:00"
   }
 ];
 
 const singleAuctionItem = {
     id: "1",
-    status: "active",
     imageUrls: ["http://www.suomenantiikki.fi/images/4591%20lasi%2014.jpg", "https://scontent-dft4-1.cdninstagram.com/t51.2885-15/s480x480/e35/14676626_169921290137198_1808913596554412032_n.jpg"],
-    title: "Iittalan lasia",
-    description: "Yyberhjuvat kupit joista voi kipata vaikka korpikuusen kyyneleitä.",
-    startPrice: "0",
-    currentPrice: "100",
-    minimumBidRaise: "10",
+    title: "Set of Iittala glasses",
+    description: "Unused set of Iittala glasses. It's a pleasure to drink wind-light cognac snaps with these!",
+    startPrice: 0,
+    bids: [{uid:"G543534534534t43", bid:100, bidTime:"2017-11-20 20:00"}, {uid:"G543534534534t44", bid:110, bidTime:"2017-11-20 20:01"}],
+    minimumBidStep: 10,
     auctionStart: "2017-10-12T12:03Z",
     auctionEnd: "2017-11-19T20:03Z",
     createdBy: "Keisari ite",
     created: "2017-01-10",
     updated: "2017-01-10",
     itemLocation: "Huttukylä, Kiiminki",
-    contactInfo: "Soita +358504872100 ja kysy lisää.",
-    paymentInfo: "Voit maksaa käyttäen integroituja maksutapoja.",
-    deliveryInfo: "Postitse tai nouto ym. osoitteesta"
+    contactInfo: "Call +358633455434 and ask for more.",
+    paymentInfo: "Credit and debit cards, PayPal, AliPay and Siirto-payments.",
+    deliveryInfo: "By mail or pick-up from the address provided."
 }
 
 class AuctionItemApi {

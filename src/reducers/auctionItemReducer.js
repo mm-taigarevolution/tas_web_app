@@ -16,7 +16,7 @@ export default function auctionItemReducer(state = initialState.auctionItem, act
 
         let end = new Date(state.auctionEnd);
         let current = new Date();
-        let timeRemaining = 0;
+
         if(current < end) {
           let seconds = Math.floor((end - current)/1000);
           let secondsPerDay = 3600*24;
@@ -34,8 +34,7 @@ export default function auctionItemReducer(state = initialState.auctionItem, act
           newState.bid_time_remaining_hours = hours;
           newState.bid_time_remaining_minutes = minutes;
           newState.bid_time_remaining_seconds = seconds;
-
-          newState.status = "active";
+          newState.active = true;
         }
 
         else {
@@ -43,7 +42,7 @@ export default function auctionItemReducer(state = initialState.auctionItem, act
           newState.bid_time_remaining_hours = 0;
           newState.bid_time_remaining_minutes = 0;
           newState.bid_time_remaining_seconds = 0;
-          newState.status = "inactive";
+          newState.active = false;
         }
 
         return newState;

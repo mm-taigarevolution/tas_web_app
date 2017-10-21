@@ -45,18 +45,40 @@ input.small { width: 46px; }
   height: 258px;
 }
 
-.card-st-list-price {
+.p-list-price {
+  padding: 0px;
   margin-right: 10px;
+  margin-top: 0px;
   font-weight: bold;
   font-size: 16px;
-  color: black;
+  color: gray;
 }
 
-.card-st-list-time-remaining {
+.p-time-remaining-active {
+  padding: 0px;
   margin-left: 10px;
+  margin-top: 0px;
   font-weight: bold;
   font-size: 16px;
-  color: black;
+  color: gray;
+}
+
+.p-list-time-remaining-active-ending {
+  padding: 0px;
+  margin-left: 10px;
+  margin-top: 0px;
+  font-weight: bold;
+  font-size: 16px;
+  color: orange;
+}
+
+.p-list-time-remaining-inactive {
+  padding: 0px;
+  margin-left: 10px;
+  margin-top: 0px;
+  font-weight: bold;
+  font-size: 16px;
+  color: gray;
 }
 
 .card-st-details-price {
@@ -64,10 +86,4 @@ input.small { width: 46px; }
   font-weight: bold;
   font-size: 32px;
   color: orange;
-}
-
-.card-st-details-time-remaining {
-  margin: 5px 5px 10px 10px;
-  font-size: 14px;
-  color: gray;
 }

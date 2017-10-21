@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as auctionItemActions from '../../actions/auctionItemActions';
 import AuctionDetailsItem from '../controls/AuctionDetailsItem';
-import {UncontrolledAlert} from 'reactstrap';
+import BidDialog from '../controls/BidDialog';
 
 class AuctionDetailsPage extends React.Component {
   constructor(props, context) {
@@ -13,8 +13,13 @@ class AuctionDetailsPage extends React.Component {
       auctionItemId: "",
       auctionItem: {},
       isBusy: false,
-      errorOccurred: false
+      errorOccurred: false,
+      showBidDialog: false
     };
+
+    this.onNewBidRequired = this.onNewBidRequired.bind(this);
+    this.onBidCancelled = this.onBidCancelled.bind(this);
+    this.onBidMade = this.onBidMade.bind(this);
   }
 
   componentDidMount() {
@@ -28,15 +33,23 @@ class AuctionDetailsPage extends React.Component {
                    errorOccurred: nextProps.errorOccurred});
   }
 
- onNewBidRequired(event) {
-    doAlert();
+  onNewBidRequired(event) {
+    this.setState({showBidDialog: true});
+  }
+
+  onBidCancelled(event) {
+    this.setState({showBidDialog: false});
+  }
+
+  onBidMade(event) {
+    this.setState({showBidDialog: false});
   }
 
   render() {
     let isBusy = this.props.isBusy;
     let errorOccurred = this.props.errorOccurred;
     let auctionItem = this.props.auctionItem;
-    let showAlert = this.props.showAlert;
+    let showBidDialog = this.state.showBidDialog;
 
     return (
       <div>
@@ -47,8 +60,12 @@ class AuctionDetailsPage extends React.Component {
            <div>
              {errorOccurred == false &&
                <div>
-                   <AuctionDetailsItem auctionItem={auctionItem}
-                                       onNewBidRequired={this.onNewBidRequired}/>
+                  <AuctionDetailsItem auctionItem={auctionItem}
+                                      onNewBidRequired={this.onNewBidRequired}/>
+                  <BidDialog isOpen={showBidDialog}
+                             auctionItem={auctionItem}
+                             onBidCancelled={this.onBidCancelled}
+                             onBidMade={this.onBidMade}/>
                </div>
              }
              {errorOccurred == true &&
@@ -75,10 +92,11 @@ function mapStateToProps(state, ownProps) {
   let auctionItemId = ownProps.match.params.id;
   let busy = state.numberOfBusyOperations > 0;
   let errorOccurred = state.errorOccurred;
+  let auctionItem = state.auctionItem;
 
   return {
     auctionItemId: auctionItemId,
-    auctionItem: state.auctionItem,
+    auctionItem: auctionItem,
     isBusy: busy,
     errorOccurred: errorOccurred
   };
@@ -88,14 +106,6 @@ function mapDispatchToProps(dispatch) {
   return {
     auctionItemActions: bindActionCreators(auctionItemActions, dispatch)
   };
-}
-
-function doAlert() {
-  return (
-    <UncontrolledAlert color="info">
-      I am an alert and I can be dismissed!
-    </UncontrolledAlert>
-  );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuctionDetailsPage);
