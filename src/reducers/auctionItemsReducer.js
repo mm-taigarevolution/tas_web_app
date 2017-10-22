@@ -9,45 +9,48 @@ import initialState from './initialState';
 export default function auctionItemsReducer(state = initialState.auctionItems, action) {
   switch (action.type) {
     case GET_AUCTION_ITEMS:
-      return Object.assign([], action.value);
+      state =  Object.assign([], action.value);
+      // fall through to calculate time remaining
     case TIMER_TICK:
-      if(state != initialState.auctionItems) {
-        let newState = Object.assign([], state);
-        newState.map(function(item) {
-          let end = new Date(item.auctionEnd);
-          let current = new Date();
+      let newState = [];
 
-          if(current < end) {
-            let seconds = Math.floor((end - current)/1000);
-            let secondsPerDay = 3600*24;
-            let secondsPerHour = 3600;
-            let secondsPerMinute = 60;
+      state.map(function(item) {
+        let newItem = Object.assign({}, item);
+        let end = new Date(newItem.auctionEnd);
+        let current = new Date();
 
-            let days = Math.floor(parseFloat(seconds / secondsPerDay));
-            seconds -= days*secondsPerDay;
-            let hours = Math.floor(parseFloat(seconds / secondsPerHour));
-            seconds -= hours*secondsPerHour;
-            let minutes = Math.floor(parseFloat(seconds / secondsPerMinute));
-            seconds -= minutes*secondsPerMinute;
+        if(current < end) {
+          let seconds = Math.floor((end - current)/1000);
+          let secondsPerDay = 3600*24;
+          let secondsPerHour = 3600;
+          let secondsPerMinute = 60;
 
-            item.bid_time_remaining_days = days;
-            item.bid_time_remaining_hours = hours;
-            item.bid_time_remaining_minutes = minutes;
-            item.bid_time_remaining_seconds = seconds;
-            item.active = true;
-          }
+          let days = Math.floor(parseFloat(seconds / secondsPerDay));
+          seconds -= days*secondsPerDay;
+          let hours = Math.floor(parseFloat(seconds / secondsPerHour));
+          seconds -= hours*secondsPerHour;
+          let minutes = Math.floor(parseFloat(seconds / secondsPerMinute));
+          seconds -= minutes*secondsPerMinute;
 
-          else {
-            item.bid_time_remaining_days = 0;
-            item.bid_time_remaining_hours = 0;
-            item.bid_time_remaining_minutes = 0;
-            item.bid_time_remaining_seconds = 0;
-            item.active = false;
-          }
-        });
-        return newState;
-      }
-      return state;
+          newItem.bid_time_remaining_days = days;
+          newItem.bid_time_remaining_hours = hours;
+          newItem.bid_time_remaining_minutes = minutes;
+          newItem.bid_time_remaining_seconds = seconds;
+          newItem.active = true;
+        }
+
+        else {
+          newItem.bid_time_remaining_days = 0;
+          newItem.bid_time_remaining_hours = 0;
+          newItem.bid_time_remaining_minutes = 0;
+          newItem.bid_time_remaining_seconds = 0;
+          newItem.active = false;
+        }
+
+        newState.push(newItem);
+      });
+
+      return newState;
     default:
       return state;
   }

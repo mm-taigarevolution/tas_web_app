@@ -95,7 +95,7 @@ class BidDialog extends React.Component {
 
     return (
       <div>
-        <Modal isOpen={this.state.isOpen} modalTransition={{ timeout: 200 }} backdropTransition={{ timeout: 100 }}>
+        <Modal isOpen={this.state.isOpen} modalTransition={{ timeout: 20 }} backdropTransition={{ timeout: 10 }}>
           <ModalHeader toggle={this.onCancelClicked}>Auction</ModalHeader>
           <ModalBody>
             <Container>

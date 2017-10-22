@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as auctionItemActions from '../../actions/auctionItemActions';
+import * as timerActions from '../../actions/timerActions';
 import AuctionDetailsItem from '../controls/AuctionDetailsItem';
 import BidDialog from '../controls/BidDialog';
 
@@ -10,10 +11,6 @@ class AuctionDetailsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      auctionItemId: "",
-      auctionItem: {},
-      isBusy: false,
-      errorOccurred: false,
       showBidDialog: false
     };
 
@@ -23,14 +20,12 @@ class AuctionDetailsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.auctionItemActions.getAuctionItemById(this.state.auctionItemId);
+    this.props.timerActions.startTimer();
+    this.props.auctionItemActions.getAuctionItemById(this.props.auctionItemId);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({auctionItemId: nextProps.auctionItemId,
-                   auctionItem: nextProps.auctionItem,
-                   isBusy: nextProps.isBusy,
-                   errorOccurred: nextProps.errorOccurred});
+  componentWillUnmount() {
+    this.props.timerActions.stopTimer();
   }
 
   onNewBidRequired(event) {
@@ -46,9 +41,9 @@ class AuctionDetailsPage extends React.Component {
   }
 
   render() {
+    let auctionItem = this.props.auctionItem;
     let isBusy = this.props.isBusy;
     let errorOccurred = this.props.errorOccurred;
-    let auctionItem = this.props.auctionItem;
     let showBidDialog = this.state.showBidDialog;
 
     return (
@@ -60,12 +55,16 @@ class AuctionDetailsPage extends React.Component {
            <div>
              {errorOccurred == false &&
                <div>
-                  <AuctionDetailsItem auctionItem={auctionItem}
-                                      onNewBidRequired={this.onNewBidRequired}/>
-                  <BidDialog isOpen={showBidDialog}
-                             auctionItem={auctionItem}
-                             onBidCancelled={this.onBidCancelled}
-                             onBidMade={this.onBidMade}/>
+                 {auctionItem.id.length > 0 &&
+                   <div>
+                     <AuctionDetailsItem auctionItem={auctionItem}
+                                         onNewBidRequired={this.onNewBidRequired}/>
+                     <BidDialog isOpen={showBidDialog}
+                                auctionItem={auctionItem}
+                                onBidCancelled={this.onBidCancelled}
+                                onBidMade={this.onBidMade}/>
+                   </div>
+                 }
                </div>
              }
              {errorOccurred == true &&
@@ -82,10 +81,11 @@ class AuctionDetailsPage extends React.Component {
 
 AuctionDetailsPage.propTypes = {
   auctionItemId: PropTypes.string.isRequired,
-  auctionItem: PropTypes.object.isRequired,
-  isBusy: PropTypes.bool.isRequired,
-  errorOccurred: PropTypes.bool.isRequired,
-  auctionItemActions: PropTypes.object.isRequired
+  auctionItem: PropTypes.object,
+  isBusy: PropTypes.bool,
+  errorOccurred: PropTypes.bool,
+  auctionItemActions: PropTypes.object.isRequired,
+  timerActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
@@ -104,7 +104,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    auctionItemActions: bindActionCreators(auctionItemActions, dispatch)
+    auctionItemActions: bindActionCreators(auctionItemActions, dispatch),
+    timerActions: bindActionCreators(timerActions, dispatch)
   };
 }
 

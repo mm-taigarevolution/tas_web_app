@@ -9,12 +9,12 @@ import initialState from './initialState';
 export default function auctionItemReducer(state = initialState.auctionItem, action) {
   switch (action.type) {
     case GET_AUCTION_ITEM_BY_ID:
-      return Object.assign({}, action.value);
+      state = Object.assign({}, action.value);
+      // fall through to calculate time remaining
     case TIMER_TICK:
-      if(state != initialState.auctionItem) {
-        let newState = Object.assign({}, state);
-
-        let end = new Date(state.auctionEnd);
+      if(state.id.length > 0) {
+        let newState = Object.assign({}, state)
+        let end = new Date(newState.auctionEnd);
         let current = new Date();
 
         if(current < end) {
@@ -44,7 +44,6 @@ export default function auctionItemReducer(state = initialState.auctionItem, act
           newState.bid_time_remaining_seconds = 0;
           newState.active = false;
         }
-
         return newState;
       }
       return state;

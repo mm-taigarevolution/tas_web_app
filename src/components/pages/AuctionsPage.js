@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as auctionItemActions from '../../actions/auctionItemActions';
+import * as auctionItemsActions from '../../actions/auctionItemsActions';
 import * as keywordActions from '../../actions/keywordActions';
 import * as timerActions from '../../actions/timerActions';
 import { CardDeck } from 'reactstrap';
@@ -13,29 +13,20 @@ import Header from '../controls/Header';
 class AuctionsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      filteredAuctionItems: [],
-      keyword: "",
-      isBusy: false,
-      errorOccurred: false
-    };
 
     this.onDetailsRequired = this.onDetailsRequired.bind(this);
     this.onKeywordChanged = this.onKeywordChanged.bind(this);
-    this.onSearchButtonClicked = this.onSearchButtonClicked.bind(this);
   }
 
   //
   // Lifecycle methods
   //
   componentDidMount() {
-    this.props.auctionItemActions.getAuctionItems();
+    this.props.timerActions.startTimer();
+    this.props.auctionItemsActions.getAuctionItems();
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({filteredAuctionItems: nextProps.filteredAuctionItems,
-                   isBusy: nextProps.isBusy,
-                   errorOccurred: nextProps.errorOccurred});
   }
 
   componentWillUnmount() {
@@ -50,43 +41,36 @@ class AuctionsPage extends React.Component {
   }
 
   onKeywordChanged(event) {
-    this.setState({keyword: event.target.value.toLowerCase()});
-
-    if(event.target.value.length == 0) {
-      this.props.keywordActions.updateKeyword(this.state.keyword);
-    }
+    this.props.keywordActions.updateKeyword(event.target.value.toLowerCase());
   }
 
-  onSearchButtonClicked(event) {
-    this.props.keywordActions.updateKeyword(this.state.keyword);
-  }
   //
   // Rendering
   //
   render() {
     let isBusy = this.props.isBusy;
     let errorOccurred = this.props.errorOccurred;
-    let hasItems = this.props.filteredAuctionItems.length > 0;
     let items = this.props.filteredAuctionItems;
 
     return (
       <div>
         <Header/>
-        <SearchBar onKeywordChanged={this.onKeywordChanged}
-                   onSearchButtonClicked={this.onSearchButtonClicked}/>
+        <SearchBar onKeywordChanged={this.onKeywordChanged}/>
         {isBusy &&
-          <p>Loading...</p>
+          <div>
+            <p>Loading...</p>
+          </div>
         }
         {!isBusy &&
           <div>
             {errorOccurred == false &&
               <div>
-                {hasItems == false &&
+                {items.length == 0 &&
                   <div>
-                    <p>No results</p>
+                    <p>No results.</p>
                   </div>
                 }
-                {hasItems &&
+                {items.length > 0 &&
                   <CardDeck>
                     {items.map(auctionItem =>
                       <AuctionListItem key={auctionItem.id}
@@ -116,9 +100,9 @@ AuctionsPage.propTypes = {
   keyword: PropTypes.string,
   isBusy: PropTypes.bool,
   errorOccurred: PropTypes.bool,
-  auctionItemActions: PropTypes.object,
-  keywordActions: PropTypes.object,
-  timerActions: PropTypes.object
+  auctionItemsActions: PropTypes.object.isRequired,
+  keywordActions: PropTypes.object.isRequired,
+  timerActions: PropTypes.object.isRequired
 };
 
 //
@@ -136,19 +120,14 @@ AuctionsPage.contextTypes = {
 function mapStateToProps(state, ownProps) {
   let errorOccurred = state.errorOccurred;
   let busy = state.numberOfBusyOperations > 0;
-  let filtered = [];
-
-  if(state.keyword.length > 0) {
-    filtered = state.auctionItems.filter(auctionItem => auctionItem.title.toLowerCase().includes(state.keyword));
-  }
-  else {
-    filtered = state.auctionItems;
-  }
+  let keyword = state.keyword;
+  let filtered = state.keyword.length > 0 ? state.auctionItems.filter(auctionItem => auctionItem.title.toLowerCase().includes(state.keyword)) : state.auctionItems;
 
   return {
     filteredAuctionItems: filtered,
     isBusy: busy,
-    errorOccurred: errorOccurred
+    errorOccurred: errorOccurred,
+    keyword: keyword
   };
 }
 
@@ -157,7 +136,7 @@ function mapStateToProps(state, ownProps) {
 //
 function mapDispatchToProps(dispatch) {
   return {
-    auctionItemActions: bindActionCreators(auctionItemActions, dispatch),
+    auctionItemsActions: bindActionCreators(auctionItemsActions, dispatch),
     keywordActions: bindActionCreators(keywordActions, dispatch),
     timerActions: bindActionCreators(timerActions, dispatch)
   };

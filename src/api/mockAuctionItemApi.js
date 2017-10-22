@@ -12,7 +12,7 @@ const auctionItems = [
     startPrice: 0,
     bids: [],
     auctionStart: "2017-09-23",
-    auctionEnd: "2017-10-21 12:10"
+    auctionEnd: "2017-10-23 12:10"
   },
   {
     id: "2",

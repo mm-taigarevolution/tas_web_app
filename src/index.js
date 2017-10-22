@@ -10,7 +10,6 @@ import './styles/styles.scss'; // Yep, that's right. You can import SASS/CSS fil
 import {startTimer} from './actions/timerActions';
 
 const store = configureStore();
-store.dispatch(startTimer());
 
 render(
   <AppContainer>

@@ -3,18 +3,18 @@ import api from '../api/mockAuctionItemApi';
 import {setBusy} from '../actions/busyActions';
 import {errorOccurred} from '../actions/errorActions';
 
-export function getAuctionItemByIdSucceeded(value) {
+export function getAuctionItemsSucceeded(value) {
   return {
-    type: types.GET_AUCTION_ITEM_BY_ID, value
+    type: types.GET_AUCTION_ITEMS, value
   };
 }
 
-export function getAuctionItemById(id) {
+export function getAuctionItems() {
   return function(dispatch) {
     dispatch(setBusy(true));
     dispatch(errorOccurred(false));
-    return api.getAuctionItemById(id).then(auctionItem => {
-      dispatch(getAuctionItemByIdSucceeded(auctionItem));
+    return api.getAuctionItems().then(auctionItems => {
+      dispatch(getAuctionItemsSucceeded(auctionItems));
       dispatch(setBusy(false));
     }).catch(() => {
       dispatch(errorOccurred(true));

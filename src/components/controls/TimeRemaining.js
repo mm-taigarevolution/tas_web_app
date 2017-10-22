@@ -2,92 +2,62 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const listStyle = {
-  margin: '0px',
+  margin: '0px'
 };
 
 const detailsStyle = {
-  margin: '10px 0px 0px 0px',
+  margin: '10px 0px 0px 0px'
 };
 
-const TimeRemaining = ({days,hours,minutes,seconds,active,useListStyle}) => {
+const timeRemainingActive = {
+  padding: '0px',
+  marginLeft: '10px',
+  marginTop: '0px',
+  fontWeight:'bold',
+  fontSize: '16px',
+  color: 'gray'
+};
+
+const timeRemainingInactive = {
+  padding: '0px',
+  marginLeft: '10px',
+  marginTop: '0px',
+  fontWeight:'bold',
+  fontSize: '16px',
+  color: 'darkgray'
+};
+
+const timeRemainingEnding = {
+  padding: '0px',
+  marginLeft: '10px',
+  marginTop: '0px',
+  fontWeight:'bold',
+  fontSize: '16px',
+  color: 'orange'
+};
+
+const TimeRemaining = ({days,hours,minutes,seconds,active}) => {
   return (
     <div>
       {active &&
         <div>
           {days > 0 &&
-            <div>
-              {useListStyle &&
-                <div style={listStyle}>
-                  Ends at
-                  <p className="p-time-remaining-active">
-                    {days}d {hours}h
-                  </p>
-                </div>
-              }
-              {!useListStyle &&
-                <div style={detailsStyle}>
-                  <p className="p-list-time-remaining-active">Ends at {days}d {hours}h</p>
-                </div>
-              }
-            </div>
+            <p style={timeRemainingActive}>{days}d {hours}h</p>
           }
           {days == 0 &&
             <div>
               {hours > 0 &&
-                <div>
-                  {useListStyle &&
-                    <div style={listStyle}>
-                      Ends at
-                      <p className="p-time-remaining-active">
-                        {hours}h {minutes}min
-                      </p>
-                    </div>
-                  }
-                  {!useListStyle &&
-                    <div style={detailsStyle}>
-                      <p className="p-list-time-remaining-active">Ends at {hours}h {minutes}min</p>
-                    </div>
-                  }
-                </div>
+                <p style={timeRemainingActive}>{hours}h {minutes}min</p>
               }
               {hours == 0 &&
-                <div>
-                  {useListStyle &&
-                    <div style={listStyle}>
-                      Ends at
-                      <p className="p-list-time-remaining-active-ending">
-                        {minutes}m {seconds}s
-                      </p>
-                    </div>
-                  }
-                  {!useListStyle &&
-                    <div style={detailsStyle}>
-                      <p className="p-list-time-remaining-active-ending">Ends at {minutes}m {seconds}s</p>
-                    </div>
-                  }
-                </div>
+                <p style={timeRemainingEnding}>{minutes}min {seconds}s</p>
               }
             </div>
           }
         </div>
       }
       {!active &&
-        <div>
-          {useListStyle &&
-            <div style={listStyle}>
-              <p className="p-list-time-remaining-inactive">
-                Auction ended
-              </p>
-            </div>
-          }
-          {!useListStyle &&
-            <div style={detailsStyle}>
-              <p className="p-list-time-remaining-inactive">
-                Auction ended
-              </p>
-            </div>
-          }
-        </div>
+        <p style={timeRemainingInactive}>Closed</p>
       }
     </div>
   );
@@ -98,8 +68,7 @@ TimeRemaining.propTypes = {
   hours: PropTypes.number,
   minutes: PropTypes.number,
   seconds: PropTypes.number,
-  active: PropTypes.bool.isRequired,
-  useListStyle: PropTypes.bool.isRequired
+  active: PropTypes.bool.isRequired
 };
 
 export default TimeRemaining;

@@ -6,20 +6,17 @@ import BidHistory from '../controls/BidHistory';
 
 const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
   let autoPlay = false;
-  let carouselItems = [];
   let useListStyle = false;
   let bidDisabled = !auctionItem.active;
   let numberOfAuctions = auctionItem.bids.length;
   let currentPrice = auctionItem.bids.length > 0 ? auctionItem.bids[auctionItem.bids.length-1].bid: auctionItem.startPrice;
 
-  if(auctionItem.imageUrls != undefined)
-  {
-    carouselItems = auctionItem.imageUrls.map(imageUrl => {
-      return {
-        src: imageUrl
-      };
-    });
-  }
+  let carouselItems = auctionItem.imageUrls.map(imageUrl => {
+    return {
+      src: imageUrl,
+      caption: ''
+    };
+  });
 
   const chapterStyle = {
     margin: '10px 0px 0px 0px',
@@ -38,8 +35,29 @@ const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
     width: '100%'
   };
 
+  const priceStyle = {
+    margin: '5px 5px 10px 10px',
+    fontWeight: 'bold',
+    fontSize: '32px',
+    color: 'orange'
+  };
+
+  const timeRemainingStyle = {
+    margin: '10px 0px 10px 0px'
+  };
+
+  const bidButtonStyle = {
+    margin: '0px 0px 10px 0px',
+    backgroundColor: 'orange',
+    color: 'white'
+  };
+
+  const cardStyle = {
+    maxWidth: '100%'
+  };
+
   return (
-    <Card className="lg">
+    <Card style={cardStyle}>
       <CardBody>
         <Row>
           <Col className="text-left">
@@ -47,21 +65,22 @@ const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
             <CardSubtitle>{auctionItem.itemLocation}</CardSubtitle>
           </Col>
           <Col className="text-right">
-            <CardSubtitle className="card-st-details-price">{currentPrice} €</CardSubtitle>
-            <Button disabled={bidDisabled}
+            <CardSubtitle style={priceStyle}>{currentPrice} €</CardSubtitle>
+            <Button style={bidButtonStyle}
+                    disabled={bidDisabled}
                     onClick={onNewBidRequired}
                     value={auctionItem.id}>Make a bid</Button>
-                  <TimeRemaining  days={auctionItem.bid_time_remaining_days}
-                                  hours={auctionItem.bid_time_remaining_hours}
-                                  minutes={auctionItem.bid_time_remaining_minutes}
-                                  seconds={auctionItem.bid_time_remaining_seconds}
-                                  active={auctionItem.active}
-                                  useListStyle={useListStyle}/>
+            <TimeRemaining  style={timeRemainingStyle}
+                            days={auctionItem.bid_time_remaining_days}
+                            hours={auctionItem.bid_time_remaining_hours}
+                            minutes={auctionItem.bid_time_remaining_minutes}
+                            seconds={auctionItem.bid_time_remaining_seconds}
+                            active={auctionItem.active}/>
           </Col>
         </Row>
         <Row>
           <UncontrolledCarousel items={carouselItems}
-                                autoPlay={autoPlay}/>
+                                ride={autoPlay}/>
           <div style={chapterStyle}>
             <CardSubtitle style={chapterTitleStyle}>Description</CardSubtitle>
             <CardText style={chapterBodyStyle}>{auctionItem.description}</CardText>

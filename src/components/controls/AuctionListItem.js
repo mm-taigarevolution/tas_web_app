@@ -3,35 +3,61 @@ import PropTypes from 'prop-types';
 import {Card, CardImg, CardBody, CardSubtitle, CardText, Button, Row, Col } from 'reactstrap';
 import TimeRemaining from '../controls/TimeRemaining';
 
+const cardStyle = {
+  maxWidth: '260px'
+}
+
+const imgStyle = {
+  width: '258px',
+  height: '258px'
+}
+
+const priceStyle = {
+  padding: '0px',
+  marginRight: '10px',
+  marginTop: '4px',
+  fontWeight: 'bold',
+  fontSize: '16px',
+  color: 'gray'
+}
+
+const detailsStyle = {
+  margin: '0px',
+  padding: '0px'
+}
+
+const subTitleStyle = {
+  fontWeight: 'bold',
+  color: 'gray'
+}
+
 const AuctionListItem = ({auctionItem, onDetailsRequired}) => {
-  let useListStyle = true;
   let numberOfAuctions = auctionItem.bids.length;
   let currentPrice = auctionItem.bids.length > 0 ? auctionItem.bids[auctionItem.bids.length-1].bid: auctionItem.startPrice;
 
   return (
-    <Card className="sm"
+    <Card style={cardStyle}
           id={auctionItem.id}
           onClick={onDetailsRequired}>
-      <CardImg className="card-img-list" src={auctionItem.thumbnailUrl} alt="image" />
+      <CardImg style={imgStyle} src={auctionItem.thumbnailUrl} alt="image" />
       <CardBody>
-        <CardSubtitle>{auctionItem.title}</CardSubtitle>
+        <CardSubtitle style={subTitleStyle}>{auctionItem.title}</CardSubtitle>
         <CardText>{auctionItem.itemLocation}</CardText>
         <Row>
           <Col sm="6" className="text-left">
-            <CardText>
-              {numberOfAuctions} bids
-              <p className="p-list-price">{currentPrice} €</p>
-            </CardText>
+            <CardText>{numberOfAuctions} bids</CardText>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm="6" className="text-left">
+            <CardText>{currentPrice} €</CardText>
           </Col>
           <Col sm="6" className="text-right">
-            <CardText>
-              <TimeRemaining  days={auctionItem.bid_time_remaining_days}
-                              hours={auctionItem.bid_time_remaining_hours}
-                              minutes={auctionItem.bid_time_remaining_minutes}
-                              seconds={auctionItem.bid_time_remaining_seconds}
-                              active={auctionItem.active}
-                              useListStyle={useListStyle}/>
-            </CardText>
+            <TimeRemaining  days={auctionItem.bid_time_remaining_days}
+                            hours={auctionItem.bid_time_remaining_hours}
+                            minutes={auctionItem.bid_time_remaining_minutes}
+                            seconds={auctionItem.bid_time_remaining_seconds}
+                            active={auctionItem.active}/>
           </Col>
         </Row>
       </CardBody>
