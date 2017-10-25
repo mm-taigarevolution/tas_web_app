@@ -12,6 +12,15 @@ export default {
     auctionEnd: '',
     active: true
   },
+  user: {
+    uid: '',
+    firstName: '',
+    lastName: '',
+    address: '',
+    postalCode: '',
+    city: '',
+    country: ''
+  },
   numberOfBusyOperations: 0,
   errorOccurred: false
 };

@@ -1,20 +1,20 @@
 import * as types from '../common/actionTypes';
-import api from '../api/mockAuctionItemsApi';
+import api from '../api/mockUsersApi';
 import {setBusy} from '../actions/busyActions';
 import {errorOccurred} from '../actions/errorActions';
 
-export function getAuctionItemsSucceeded(value) {
+export function authenticateUserSucceeded(value) {
   return {
-    type: types.GET_AUCTION_ITEMS, value
+    type: types.AUTHENTICATE_USER, value
   };
 }
 
-export function getAuctionItems() {
+export function authenticateUser(method) {
   return function(dispatch) {
     dispatch(setBusy(true));
     dispatch(errorOccurred(false));
-    return api.getAuctionItems().then(auctionItems => {
-      dispatch(getAuctionItemsSucceeded(auctionItems));
+    return api.authenticateUser(method).then(user => {
+      dispatch(authenticateUserSucceeded(user));
       dispatch(setBusy(false));
     }).catch(() => {
       dispatch(errorOccurred(true));

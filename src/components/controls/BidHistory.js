@@ -29,12 +29,12 @@ const BidHistory = ({bids}) => {
       </Row>
       {count > 0 &&
         <div>
-          {items.map(item =>
+          {items.map(item => (
             <Row style={rowStyle} key={item.uid}>
               <Col className="text-left">{item.bid} €</Col>
               <Col className="text-center">{item.bidTime}</Col>
               <Col className="text-right">{item.uid}</Col>
-            </Row>
+            </Row>)
           )}
         </div>
       }

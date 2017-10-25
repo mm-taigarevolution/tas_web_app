@@ -1,14 +1,14 @@
 import { createStore } from 'redux';
 import initialState from '../reducers/initialState';
 import rootReducer from './../reducers';
-import * as auctionItemActions from '../actions/auctionItemActions';
+import * as auctionItemsActions from '../actions/auctionItemsActions';
 
 describe('Store', () => {
   it('should receive the empty array of auction items passed as an action', () => {
     const store = createStore(rootReducer, initialState);
 
     const auctionItems = [];
-    const action = auctionItemActions.getAuctionItemsSucceeded(auctionItems);
+    const action = auctionItemsActions.getAuctionItemsSucceeded(auctionItems);
     store.dispatch(action);
 
     const actual = store.getState().auctionItems;
@@ -23,67 +23,42 @@ describe('Store', () => {
     const auctionItems = [
       {
         id: "1",
-        status: "active",
-        title: "Auction item 1",
-        currentPrice: "100",
+        thumbnailUrl: "http://kotisivukone.fi/files/astiataivas.tarjoaa.fi/Arabia/Maitokannut_soppaskoolit_kastikekannut/ae030.jpg",
+        title: "Arabia milk can",
+        itemLocation: "Oulu",
+        startPrice: 0,
+        bids: [],
         auctionStart: "2017-09-23",
-        auctionEnd: "2017-11-23"
+        auctionEnd: "2017-10-23 12:10"
       },
       {
         id: "2",
-        status: "'active",
-        title: "Auction item 2",
-        currentPrice: "110",
+        thumbnailUrl: "https://scontent-dft4-1.cdninstagram.com/t51.2885-15/s480x480/e35/14676626_169921290137198_1808913596554412032_n.jpg",
+        title: "Caesar's coffee pot",
+        itemLocation: "Jyväskylä",
+        startPrice: 0,
+        bids: [{uid:"G543534534534t43", bid:100, bidTime:"2017-11-20 20:00"}, {uid:"G543534534534t44", bid:110, bidTime:"2017-11-20 20:01"}],
         auctionStart: "2017-09-22",
-        auctionEnd: "2017-11-22"
+        auctionEnd: "2017-10-21 14:10"
       },
       {
         id: "3",
-        status: "active",
-        title: "Auction item 3",
-        currentPrice: "200",
+        thumbnailUrl: "http://www.gameberry.net/kannet/1578.jpg",
+        title: "Donkey Konkey- console",
+        itemLocation: "Kuopio",
+        startPrice: 0,
+        bids: [{uid:"G543534534534t43", bid:100, bidTime:"2017-11-20 20:00"}, {uid:"G543534534534t44", bid:200, bidTime:"2017-11-20 20:01"}],
         auctionStart: "2017-09-20",
-        auctionEnd: "2017-11-20"
+        auctionEnd: "2017-10-20 19:00"
       }
     ];
 
-    const action = auctionItemActions.getAuctionItemsSucceeded(auctionItems);
+    const action = auctionItemsActions.getAuctionItemsSucceeded(auctionItems);
     store.dispatch(action);
 
     const actual = store.getState().auctionItems;
     const expected = auctionItems;
 
-    expect(actual).toEqual(expected);
-  });
-  it('should receive one auction item passed as an action', () => {
-    const store = createStore(rootReducer, initialState);
-
-    const singleAuctionItem = {
-        id: "1",
-        status: "active",
-        thumbnailUrl: "http://kotisivukone.fi/files/astiataivas.tarjoaa.fi/Arabia/Maitokannut_soppaskoolit_kastikekannut/ae030.jpg",
-        title: "Arabia maitokannu",
-        description: "Yyberhjuva kannu josta voi kipata vaikka korpikuusen kyyneleitä.",
-        startPrice: "0",
-        currentPrice: "100",
-        minimumBidRaise: "10",
-        auctionStart: "2017-10-01",
-        auctionEnd: "2017-12-01",
-        createdBy: "Keisari ite",
-        created: "2017-01-10",
-        updated: "2017-01-10",
-        itemLocation: "Huttukylä, Kiiminki",
-        contactInfo: "Soita +358504872100 ja kysy lisää.",
-        paymentInfo: "Voit maksaa luonnossa.",
-        deliveryInfo: "Voin tuoda tuotteen vaikka Närpiölle."
-    }
-
-    const action = auctionItemActions.getAuctionItemByIdSucceeded(singleAuctionItem);
-    store.dispatch(action);
-
-    const actual = store.getState().auctionItem;
-    const expected = singleAuctionItem;
-
-    expect(actual).toEqual(expected);
+    expect(actual.length).toEqual(expected.length);
   });
 });

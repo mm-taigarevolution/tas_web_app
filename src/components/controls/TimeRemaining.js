@@ -1,39 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const listStyle = {
-  margin: '0px'
-};
-
-const detailsStyle = {
-  margin: '10px 0px 0px 0px'
-};
-
 const timeRemainingActive = {
-  padding: '0px',
-  marginLeft: '10px',
-  marginTop: '0px',
-  fontWeight:'bold',
-  fontSize: '16px',
-  color: 'gray'
+  fontSize: '16px'
 };
 
 const timeRemainingInactive = {
-  padding: '0px',
-  marginLeft: '10px',
-  marginTop: '0px',
-  fontWeight:'bold',
-  fontSize: '16px',
-  color: 'darkgray'
+  fontSize: '16px'
 };
 
 const timeRemainingEnding = {
-  padding: '0px',
-  marginLeft: '10px',
-  marginTop: '0px',
-  fontWeight:'bold',
   fontSize: '16px',
-  color: 'orange'
+  color: 'red'
 };
 
 const TimeRemaining = ({days,hours,minutes,seconds,active}) => {
@@ -42,7 +20,14 @@ const TimeRemaining = ({days,hours,minutes,seconds,active}) => {
       {active &&
         <div>
           {days > 0 &&
-            <p style={timeRemainingActive}>{days}d {hours}h</p>
+            <div>
+              {hours > 0 &&
+                <p style={timeRemainingActive}>{days}d {hours}h</p>
+              }
+              {hours == 0 &&
+                <p style={timeRemainingActive}>{days}d</p>                
+              }
+            </div>
           }
           {days == 0 &&
             <div>

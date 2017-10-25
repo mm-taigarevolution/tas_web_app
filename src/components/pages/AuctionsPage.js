@@ -26,9 +26,6 @@ class AuctionsPage extends React.Component {
     this.props.auctionItemsActions.getAuctionItems();
   }
 
-  componentWillReceiveProps(nextProps) {
-  }
-
   componentWillUnmount() {
     this.props.timerActions.stopTimer();
   }
@@ -72,10 +69,11 @@ class AuctionsPage extends React.Component {
                 }
                 {items.length > 0 &&
                   <CardDeck>
-                    {items.map(auctionItem =>
+                    {items.map(auctionItem => (
                       <AuctionListItem key={auctionItem.id}
                                        auctionItem={auctionItem}
-                                       onDetailsRequired={this.onDetailsRequired}/>)}
+                                       onDetailsRequired={this.onDetailsRequired}/>))
+                    }
                   </CardDeck>
                 }
               </div>
@@ -117,7 +115,7 @@ AuctionsPage.contextTypes = {
 // Called every time state changes in the store
 // This will trigger componentWillReceiveProps for setting the props to component's state
 //
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   let errorOccurred = state.errorOccurred;
   let busy = state.numberOfBusyOperations > 0;
   let keyword = state.keyword;

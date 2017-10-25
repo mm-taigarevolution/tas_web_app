@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Row, InputGroup, Input, InputGroupButton, Button} from 'reactstrap';
+import {InputGroup, Input} from 'reactstrap';
 
 const SearchBar = ({onKeywordChanged}) => {
   return (

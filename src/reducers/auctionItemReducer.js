@@ -13,7 +13,7 @@ export default function auctionItemReducer(state = initialState.auctionItem, act
       // fall through to calculate time remaining
     case TIMER_TICK:
       if(state.id.length > 0) {
-        let newState = Object.assign({}, state)
+        let newState = Object.assign({}, state);
         let end = new Date(newState.auctionEnd);
         let current = new Date();
 

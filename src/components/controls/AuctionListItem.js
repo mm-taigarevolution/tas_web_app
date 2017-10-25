@@ -1,39 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Card, CardImg, CardBody, CardSubtitle, CardText, Button, Row, Col } from 'reactstrap';
+import {Card, CardImg, CardBody, CardSubtitle, CardText, Row, Col } from 'reactstrap';
 import TimeRemaining from '../controls/TimeRemaining';
 
 const cardStyle = {
   maxWidth: '260px'
-}
+};
 
 const imgStyle = {
   width: '258px',
   height: '258px'
-}
-
-const priceStyle = {
-  padding: '0px',
-  marginRight: '10px',
-  marginTop: '4px',
-  fontWeight: 'bold',
-  fontSize: '16px',
-  color: 'gray'
-}
-
-const detailsStyle = {
-  margin: '0px',
-  padding: '0px'
-}
+};
 
 const subTitleStyle = {
   fontWeight: 'bold',
   color: 'gray'
-}
+};
 
 const AuctionListItem = ({auctionItem, onDetailsRequired}) => {
   let numberOfAuctions = auctionItem.bids.length;
-  let currentPrice = auctionItem.bids.length > 0 ? auctionItem.bids[auctionItem.bids.length-1].bid: auctionItem.startPrice;
+  let currentPrice = numberOfAuctions > 0 ? auctionItem.bids[numberOfAuctions-1].bid: auctionItem.startPrice;
 
   return (
     <Card style={cardStyle}

@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {Jumbotron, Container} from 'reactstrap';
+import {Jumbotron} from 'reactstrap';
 
 const Header = () => {
   return (

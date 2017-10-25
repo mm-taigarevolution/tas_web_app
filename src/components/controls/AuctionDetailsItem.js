@@ -1,15 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button, UncontrolledCarousel, CarouselItem } from 'reactstrap';
+import {Row, Col, Card, CardBody, CardTitle, CardSubtitle, CardText, Button, UncontrolledCarousel } from 'reactstrap';
 import TimeRemaining from '../controls/TimeRemaining';
 import BidHistory from '../controls/BidHistory';
 
+const chapterStyle = {
+  margin: '10px 0px 0px 0px',
+  padding: '10px',
+  border: '1px dotted lightgray',
+  width: '100%'
+};
+
+const chapterTitleStyle = {
+  margin: '5px 0px 0px 0px',
+  width: '100%'
+};
+
+const chapterBodyStyle = {
+  margin: '10px 0px 0px 0px',
+  width: '100%'
+};
+
+const priceStyle = {
+  margin: '5px 5px 10px 10px',
+  fontWeight: 'bold',
+  fontSize: '32px',
+  color: 'orange'
+};
+
+const timeRemainingStyle = {
+  margin: '10px 0px 10px 0px'
+};
+
+const bidButtonStyle = {
+  margin: '0px 0px 10px 0px',
+  backgroundColor: 'orange',
+  color: 'white'
+};
+
+const cardStyle = {
+  maxWidth: '100%'
+};
+
 const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
   let autoPlay = false;
-  let useListStyle = false;
   let bidDisabled = !auctionItem.active;
   let numberOfAuctions = auctionItem.bids.length;
-  let currentPrice = auctionItem.bids.length > 0 ? auctionItem.bids[auctionItem.bids.length-1].bid: auctionItem.startPrice;
+  let currentPrice = numberOfAuctions > 0 ? auctionItem.bids[numberOfAuctions-1].bid: auctionItem.startPrice;
 
   let carouselItems = auctionItem.imageUrls.map(imageUrl => {
     return {
@@ -17,44 +54,6 @@ const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
       caption: ''
     };
   });
-
-  const chapterStyle = {
-    margin: '10px 0px 0px 0px',
-    padding: '10px',
-    border: '1px dotted lightgray',
-    width: '100%'
-  };
-
-  const chapterTitleStyle = {
-    margin: '5px 0px 0px 0px',
-    width: '100%'
-  };
-
-  const chapterBodyStyle = {
-    margin: '10px 0px 0px 0px',
-    width: '100%'
-  };
-
-  const priceStyle = {
-    margin: '5px 5px 10px 10px',
-    fontWeight: 'bold',
-    fontSize: '32px',
-    color: 'orange'
-  };
-
-  const timeRemainingStyle = {
-    margin: '10px 0px 10px 0px'
-  };
-
-  const bidButtonStyle = {
-    margin: '0px 0px 10px 0px',
-    backgroundColor: 'orange',
-    color: 'white'
-  };
-
-  const cardStyle = {
-    maxWidth: '100%'
-  };
 
   return (
     <Card style={cardStyle}>
