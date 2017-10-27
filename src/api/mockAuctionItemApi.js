@@ -30,6 +30,23 @@ class AuctionItemApi {
       }, delay);
     });
   }
+
+  static bidAuctionItem(itemId, uid, bidAmount) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        let newItem = Object.assign({}, singleAuctionItem)
+        let newBid = { uid: uid,
+                       bid: bidAmount,
+                       bidTime: new Date().toString()
+                     };
+        let bids = Object.assign([], singleAuctionItem.bids);
+        bids.push(newBid);
+
+        newItem.bids = Object.assign([], bids);
+        resolve(newItem);
+      }, delay);
+    });
+  }
 }
 
 export default AuctionItemApi;

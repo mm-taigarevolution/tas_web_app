@@ -33,12 +33,14 @@ class AuctionsPage extends React.Component {
   //
   // Event handlers from stateless components
   //
-  onDetailsRequired(event) {
-    this.context.router.history.push('/'+event.target.parentElement.id);
+  onDetailsRequired(e) {
+    e.preventDefault();
+    this.context.router.history.push('/'+e.target.parentElement.id);
   }
 
   onKeywordChanged(event) {
-    this.props.keywordActions.updateKeyword(event.target.value.toLowerCase());
+    e.preventDefault();
+    this.props.keywordActions.updateKeyword(e.target.value.toLowerCase());
   }
 
   //

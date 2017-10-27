@@ -7,3 +7,6 @@ export const TIMER_START = 'TIMER_START';
 export const TIMER_TICK = 'TIMER_TICK';
 export const TIMER_STOP = 'TIMER_STOP';
 export const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
+export const POST_BID_AUCTION_ITEM = 'POST_BID_AUCTION_ITEM';
+export const PUT_BID_SKELETON = 'PUT_BID_SKELETON';
+export const PUT_BID_AMOUNT = 'PUT_BID_AMOUNT';

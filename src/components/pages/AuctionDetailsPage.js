@@ -14,19 +14,26 @@ class AuctionDetailsPage extends React.Component {
   }
 
   componentDidMount() {
+    let auctionItem = this.props.auctionItem;
+
+    if(auctionItem.id.length == 0) {
+      this.props.auctionItemActions.getAuctionItemById(this.props.auctionItemId);
+    }
+
     this.props.timerActions.startTimer();
-    this.props.auctionItemActions.getAuctionItemById(this.props.auctionItemId);
   }
 
   componentWillUnmount() {
     this.props.timerActions.stopTimer();
   }
 
-  onNewBidRequired() {
-    if(this.props.user.uid.length == 0) {
+  onNewBidRequired(e) {
+    e.preventDefault();
+    if(!this.props.user.authenticated) {
       let route = '/authenticate?forwardTo=/bid';
       this.context.router.history.push(route);
     }
+
     else {
       let route = '/bid';
       this.context.router.history.push(route);
@@ -35,6 +42,7 @@ class AuctionDetailsPage extends React.Component {
 
   render() {
     let auctionItem = this.props.auctionItem;
+    let auctionItemValid = auctionItem.id.length > 0;
     let isBusy = this.props.isBusy;
     let errorOccurred = this.props.errorOccurred;
 
@@ -47,7 +55,7 @@ class AuctionDetailsPage extends React.Component {
            <div>
              {errorOccurred == false &&
                <div>
-                 {auctionItem.id.length > 0 &&
+                 {auctionItemValid &&
                    <div>
                      <AuctionDetailsItem auctionItem={auctionItem}
                                          onNewBidRequired={this.onNewBidRequired}/>

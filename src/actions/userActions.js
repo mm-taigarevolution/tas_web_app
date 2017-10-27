@@ -14,8 +14,8 @@ export function authenticateUser(method) {
     dispatch(setBusy(true));
     dispatch(errorOccurred(false));
     return api.authenticateUser(method).then(user => {
-      dispatch(authenticateUserSucceeded(user));
       dispatch(setBusy(false));
+      dispatch(authenticateUserSucceeded(user));
     }).catch(() => {
       dispatch(errorOccurred(true));
       dispatch(setBusy(false));

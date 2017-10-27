@@ -44,7 +44,7 @@ const cardStyle = {
 
 const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
   let autoPlay = false;
-  let bidDisabled = !auctionItem.active;
+  let bidButtonDisabled = !auctionItem.active;
   let numberOfAuctions = auctionItem.bids.length;
   let currentPrice = numberOfAuctions > 0 ? auctionItem.bids[numberOfAuctions-1].bid: auctionItem.startPrice;
 
@@ -66,7 +66,7 @@ const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
           <Col className="text-right">
             <CardSubtitle style={priceStyle}>{currentPrice} €</CardSubtitle>
             <Button style={bidButtonStyle}
-                    disabled={bidDisabled}
+                    disabled={bidButtonDisabled}
                     onClick={onNewBidRequired}
                     value={auctionItem.id}>Make a bid</Button>
             <TimeRemaining  style={timeRemainingStyle}

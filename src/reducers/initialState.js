@@ -19,7 +19,14 @@ export default {
     address: '',
     postalCode: '',
     city: '',
-    country: ''
+    country: '',
+    authenticated: false
+  },
+  bid: {
+    itemId: '',
+    minimumBidAmount: 0,
+    bidStep: 0,
+    bidAmount: 0
   },
   numberOfBusyOperations: 0,
   errorOccurred: false

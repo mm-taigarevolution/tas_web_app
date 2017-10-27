@@ -30,7 +30,7 @@ const BidHistory = ({bids}) => {
       {count > 0 &&
         <div>
           {items.map(item => (
-            <Row style={rowStyle} key={item.uid}>
+            <Row style={rowStyle} key={item.bidTime}>
               <Col className="text-left">{item.bid} €</Col>
               <Col className="text-center">{item.bidTime}</Col>
               <Col className="text-right">{item.uid}</Col>

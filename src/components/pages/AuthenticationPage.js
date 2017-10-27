@@ -3,108 +3,59 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as userActions from '../../actions/userActions';
-import { Container,
-         Row,
-         Col,
-         Card,
-         CardBody,
-         CardTitle,
-         CardFooter,
-         Button} from 'reactstrap';
-
- const cardStyle = {
-   maxWidth: '100%'
- };
-
- const buttonStyle = {
-   margin: '5px 0px'
- };
-
- const warningStyle = {
-   margin: '5px 0px',
-   fontSize: '14px',
-   color: 'red'
- };
+import AuthenticationItem from '../controls/AuthenticationItem';
+import {toastr} from 'react-redux-toastr';
 
 class AuthenticationPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onGoogleClicked = this.onGoogleClicked.bind(this);
-    this.onFacebookClicked = this.onFacebookClicked.bind(this);
+    this.onGoogleAuthRequired = this.onGoogleAuthRequired.bind(this);
+    this.onFacebookAuthRequired = this.onFacebookAuthRequired.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.authenticated) {
-      if(this.props.forwardTo.length > 0) {
-        this.context.router.history.push(this.props.forwardTo);
+    if(!nextProps.isBusy) {
+      if(nextProps.errorOccurred) {
+        toastr.error('Authentication failed', 'Please re-check your credentials.');
       }
-      else {
-        this.context.router.history.back();
+
+      else if(nextProps.user.authenticated) {
+        if(nextProps.forwardTo.length > 0) {
+          toastr.success('Authentication succeeded');
+          this.context.router.history.push(nextProps.forwardTo);
+        }
+        else {
+          this.context.router.history.back();
+        }
       }
     }
   }
 
-  onGoogleClicked(event) {
-    event.preventDefault();
+  onGoogleAuthRequired(e) {
+    e.preventDefault();
     this.props.userActions.authenticateUser("Google");
   }
 
-  onFacebookClicked(event) {
-    event.preventDefault();
+  onFacebookAuthRequired(e) {
+    e.preventDefault();
     this.props.userActions.authenticateUser("Facebook");
   }
 
   render() {
     let isBusy = this.props.isBusy;
-    let errorOccurred = this.props.errorOccurred;
 
     return (
-      <Card style={cardStyle}>
-        <CardBody>
-          <CardTitle>Authentication</CardTitle>
-        </CardBody>
-        <CardBody>
-          <Container>
-            <Row>
-              <p>Please authenticate to TAS before making the bid.</p>
-            </Row>
-            <Row>
-              <Button style={buttonStyle}
-                      color="primary"
-                      disabled={isBusy}
-                      onClick={this.onGoogleClicked}>Login by Google</Button>
-            </Row>
-            <Row>
-              <Button style={buttonStyle}
-                      color="primary"
-                      disabled={isBusy}
-                      onClick={this.onFacebookClicked}>Login by Facebook</Button>
-            </Row>
-          </Container>
-        </CardBody>
-        <CardFooter>
-          {isBusy &&
-            <p>Loading...</p>
-          }
-          {!isBusy &&
-             <div>
-               {errorOccurred &&
-                 <Row>
-                   <p style={warningStyle}>Authentication failed. Please try again.</p>
-                 </Row>
-               }
-             </div>
-          }
-        </CardFooter>
-      </Card>
+      <AuthenticationItem isBusy={isBusy}
+                          onGoogleAuthRequired={this.onGoogleAuthRequired}
+                          onFacebookAuthRequired={this.onFacebookAuthRequired}/>
     );
   }
 }
 
 AuthenticationPage.propTypes = {
   forwardTo: PropTypes.string.isRequired,
-  authenticated: PropTypes.bool,
+  user: PropTypes.object,
   isBusy: PropTypes.bool,
   errorOccurred: PropTypes.bool,
   userActions: PropTypes.object.isRequired
@@ -125,11 +76,10 @@ AuthenticationPage.contextTypes = {
 function mapStateToProps(state, ownProps) {
   let queryString = require('query-string');
   let queryItem = ownProps.location.search.length > 0 ? queryString.parse(ownProps.location.search) : "";
-  let authenticated = state.user.uid.length > 0 && !state.isBusy && !state.errorOccurred;
 
   return {
     forwardTo: queryItem.forwardTo,
-    authenticated: authenticated,
+    user: state.user,
     isBusy: state.numberOfBusyOperations > 0,
     errorOccurred: state.errorOccurred
   };

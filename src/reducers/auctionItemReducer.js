@@ -1,4 +1,4 @@
-import {GET_AUCTION_ITEM_BY_ID, TIMER_TICK} from '../common/actionTypes';
+import {GET_AUCTION_ITEM_BY_ID, TIMER_TICK, POST_BID_AUCTION_ITEM} from '../common/actionTypes';
 import initialState from './initialState';
 
 // IMPORTANT: Note that with Redux, state should NEVER be changed.
@@ -9,6 +9,7 @@ import initialState from './initialState';
 export default function auctionItemReducer(state = initialState.auctionItem, action) {
   switch (action.type) {
     case GET_AUCTION_ITEM_BY_ID:
+    case POST_BID_AUCTION_ITEM:
       state = Object.assign({}, action.value);
       // fall through to calculate time remaining
     case TIMER_TICK:

@@ -14,8 +14,8 @@ export function getAuctionItems() {
     dispatch(setBusy(true));
     dispatch(errorOccurred(false));
     return api.getAuctionItems().then(auctionItems => {
-      dispatch(getAuctionItemsSucceeded(auctionItems));
       dispatch(setBusy(false));
+      dispatch(getAuctionItemsSucceeded(auctionItems));
     }).catch(() => {
       dispatch(errorOccurred(true));
       dispatch(setBusy(false));
