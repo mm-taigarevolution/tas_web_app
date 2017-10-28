@@ -38,15 +38,11 @@ const bidButtonStyle = {
   color: 'white'
 };
 
-const cardStyle = {
-  maxWidth: '100%'
-};
-
 const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
   let autoPlay = false;
   let bidButtonDisabled = !auctionItem.active;
   let numberOfAuctions = auctionItem.bids.length;
-  let currentPrice = numberOfAuctions > 0 ? auctionItem.bids[numberOfAuctions-1].bid: auctionItem.startPrice;
+  let currentPrice = numberOfAuctions > 0 ? auctionItem.bids[numberOfAuctions-1].bidAmount: auctionItem.startPrice;
 
   let carouselItems = auctionItem.imageUrls.map(imageUrl => {
     return {
@@ -56,7 +52,7 @@ const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
   });
 
   return (
-    <Card style={cardStyle}>
+    <Card>
       <CardBody>
         <Row>
           <Col className="text-left">

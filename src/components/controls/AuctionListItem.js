@@ -19,13 +19,14 @@ const subTitleStyle = {
 
 const AuctionListItem = ({auctionItem, onDetailsRequired}) => {
   let numberOfAuctions = auctionItem.bids.length;
-  let currentPrice = numberOfAuctions > 0 ? auctionItem.bids[numberOfAuctions-1].bid: auctionItem.startPrice;
+  let currentPrice = numberOfAuctions > 0 ? auctionItem.bids[numberOfAuctions-1].bidAmount: auctionItem.startPrice;
+  let auctionItemImg = auctionItem.imageUrls.length > 0 ? auctionItem.imageUrls[0] : null;
 
   return (
     <Card style={cardStyle}
           id={auctionItem.id}
           onClick={onDetailsRequired}>
-      <CardImg style={imgStyle} src={auctionItem.thumbnailUrl} alt="image" />
+      <CardImg style={imgStyle} src={auctionItemImg} alt="image" />
       <CardBody>
         <CardSubtitle style={subTitleStyle}>{auctionItem.title}</CardSubtitle>
         <CardText>{auctionItem.itemLocation}</CardText>

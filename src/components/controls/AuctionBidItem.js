@@ -7,7 +7,6 @@ import { Container,
          CardBody,
          CardTitle,
          CardSubtitle,
-         CardText,
          CardHeader,
          CardFooter,
          Button,
@@ -15,12 +14,6 @@ import { Container,
          Input,
          InputGroupAddon } from 'reactstrap';
 import TimeRemaining from '../controls/TimeRemaining';
-
-const titleStyle = {
-  fontSize: '20px',
-  fontWeight: 'bold',
-  width: '100%'
-};
 
 const colStyle = {
   fontSize: '16px',
@@ -56,12 +49,12 @@ const buttonStyle = {
   textAlign: 'right'
 };
 
-const AuctionBidItem = ({auctionItem, bid, onBidAmountChanged, onCancelRequired, onBidRequired}) => {
+const AuctionBidItem = ({auctionItem, bidDraft, onBidAmountChanged, onCancelRequired, onBidRequired}) => {
   let numberOfAuctions = auctionItem.bids.length;
-  let currentPrice = numberOfAuctions > 0 ? auctionItem.bids[numberOfAuctions-1].bid: auctionItem.startPrice;
-  let defaultBidAmount = bid.minimumBidAmount;
-  let currentBidAmount = bid.bidAmount;
-  let bidStep = bid.bidStep;
+  let currentPrice = numberOfAuctions > 0 ? auctionItem.bids[numberOfAuctions-1].bidAmount: auctionItem.startPrice;
+  let defaultBidAmount = bidDraft.minimumBidAmount;
+  let currentBidAmount = bidDraft.bidAmount;
+  let bidStep = bidDraft.bidStep;
   let bidButtonDisabled = currentBidAmount < defaultBidAmount || !auctionItem.active;
   let bidInputDisabled = !auctionItem.active;
 
@@ -149,7 +142,7 @@ const AuctionBidItem = ({auctionItem, bid, onBidAmountChanged, onCancelRequired,
 
 AuctionBidItem.propTypes = {
   auctionItem: PropTypes.object.isRequired,
-  bid: PropTypes.object.isRequired,
+  bidDraft: PropTypes.object.isRequired,
   onBidAmountChanged: PropTypes.func.isRequired,
   onCancelRequired: PropTypes.func.isRequired,
   onBidRequired: PropTypes.func.isRequired

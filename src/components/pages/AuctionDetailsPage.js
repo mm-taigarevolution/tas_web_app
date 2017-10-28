@@ -2,24 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as auctionItemActions from '../../actions/auctionItemActions';
+import * as auctionActions from '../../actions/auctionActions';
 import * as timerActions from '../../actions/timerActions';
 import AuctionDetailsItem from '../controls/AuctionDetailsItem';
+import TitleBar from '../stateful/TitleBar';
 
 class AuctionDetailsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
-
     this.onNewBidRequired = this.onNewBidRequired.bind(this);
   }
 
   componentDidMount() {
-    let auctionItem = this.props.auctionItem;
-
-    if(auctionItem.id.length == 0) {
-      this.props.auctionItemActions.getAuctionItemById(this.props.auctionItemId);
+    if(this.props.auctionItem.id.length == 0) {
+      this.props.auctionActions.getAuctionItemById(this.props.auctionItemId);
     }
-
     this.props.timerActions.startTimer();
   }
 
@@ -29,11 +26,10 @@ class AuctionDetailsPage extends React.Component {
 
   onNewBidRequired(e) {
     e.preventDefault();
-    if(!this.props.user.authenticated) {
+    if(!this.props.user.loggedIn) {
       let route = '/authenticate?forwardTo=/bid';
       this.context.router.history.push(route);
     }
-
     else {
       let route = '/bid';
       this.context.router.history.push(route);
@@ -48,27 +44,18 @@ class AuctionDetailsPage extends React.Component {
 
     return (
       <div>
-        {isBusy &&
+        <TitleBar/>
+        {isBusy && !auctionItemValid &&
           <p>Loading...</p>
         }
-        {!isBusy &&
-           <div>
-             {errorOccurred == false &&
-               <div>
-                 {auctionItemValid &&
-                   <div>
-                     <AuctionDetailsItem auctionItem={auctionItem}
-                                         onNewBidRequired={this.onNewBidRequired}/>
-                   </div>
-                 }
-               </div>
-             }
-             {errorOccurred == true &&
-               <div>
-                 <p>Service is unavailable at the moment. Please try again later.</p>
-               </div>
-             }
-           </div>
+        {errorOccurred == true &&
+          <div>
+            <p>Service is unavailable at the moment. Please try again later.</p>
+          </div>
+        }
+        {errorOccurred == false &&
+         <AuctionDetailsItem auctionItem={auctionItem}
+                             onNewBidRequired={this.onNewBidRequired}/>
         }
       </div>
     );
@@ -77,11 +64,11 @@ class AuctionDetailsPage extends React.Component {
 
 AuctionDetailsPage.propTypes = {
   auctionItemId: PropTypes.string.isRequired,
-  auctionItem: PropTypes.object,
+  auctionItem: PropTypes.object.isRequired,
   user: PropTypes.object,
   isBusy: PropTypes.bool,
   errorOccurred: PropTypes.bool,
-  auctionItemActions: PropTypes.object.isRequired,
+  auctionActions: PropTypes.object.isRequired,
   timerActions: PropTypes.object.isRequired
 };
 
@@ -97,14 +84,14 @@ function mapStateToProps(state, ownProps) {
     auctionItemId: ownProps.match.params.id,
     auctionItem: state.auctionItem,
     user: state.user,
-    isBusy: state.numberOfBusyOperations > 0,
+    isBusy: state.busy.isBusy,
     errorOccurred: state.errorOccurred
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    auctionItemActions: bindActionCreators(auctionItemActions, dispatch),
+    auctionActions: bindActionCreators(auctionActions, dispatch),
     timerActions: bindActionCreators(timerActions, dispatch)
   };
 }

@@ -1,4 +1,4 @@
-import {ERROR_OCCURRED} from '../common/actionTypes';
+import {PUT_ERROR_OCCURRED} from '../common/actionTypes';
 import initialState from './initialState';
 
 // IMPORTANT: Note that with Redux, state should NEVER be changed.
@@ -8,7 +8,7 @@ import initialState from './initialState';
 // and update values on the copy.
 export default function errorReducer(state = initialState.errorOccurred, action) {
   switch (action.type) {
-    case ERROR_OCCURRED:
+    case PUT_ERROR_OCCURRED:
       return action.value;
     default:
       return state;

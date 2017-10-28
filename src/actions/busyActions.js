@@ -1,7 +1,7 @@
 import * as types from '../common/actionTypes';
 
-export function setBusy(value) {
+export function postBusy(value) {
   return {
-    type: types.SET_BUSY, value
+    type: types.POST_BUSY, value
   };
 }

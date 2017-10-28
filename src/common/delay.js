@@ -1,1 +1,4 @@
-export default 500;
+export default {
+  mockApiTimeout: 1000,
+  tickTimerTimeout: 500
+};

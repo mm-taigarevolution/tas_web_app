@@ -1,14 +1,14 @@
 import { createStore } from 'redux';
 import initialState from '../reducers/initialState';
 import rootReducer from './../reducers';
-import * as auctionItemsActions from '../actions/auctionItemsActions';
+import * as auctionActions from '../actions/auctionActions';
 
 describe('Store', () => {
   it('should receive the empty array of auction items passed as an action', () => {
     const store = createStore(rootReducer, initialState);
 
     const auctionItems = [];
-    const action = auctionItemsActions.getAuctionItemsSucceeded(auctionItems);
+    const action = auctionActions.getAuctionItemsSucceeded(auctionItems);
     store.dispatch(action);
 
     const actual = store.getState().auctionItems;
@@ -37,7 +37,7 @@ describe('Store', () => {
         title: "Caesar's coffee pot",
         itemLocation: "Jyväskylä",
         startPrice: 0,
-        bids: [{uid:"G543534534534t43", bid:100, bidTime:"2017-11-20 20:00"}, {uid:"G543534534534t44", bid:110, bidTime:"2017-11-20 20:01"}],
+        bids: [{userId:"G543534534534t43", bid:100, bidTime:"2017-11-20 20:00"}, {userId:"G543534534534t44", bid:110, bidTime:"2017-11-20 20:01"}],
         auctionStart: "2017-09-22",
         auctionEnd: "2017-10-21 14:10"
       },
@@ -47,13 +47,13 @@ describe('Store', () => {
         title: "Donkey Konkey- console",
         itemLocation: "Kuopio",
         startPrice: 0,
-        bids: [{uid:"G543534534534t43", bid:100, bidTime:"2017-11-20 20:00"}, {uid:"G543534534534t44", bid:200, bidTime:"2017-11-20 20:01"}],
+        bids: [{userId:"G543534534534t43", bid:100, bidTime:"2017-11-20 20:00"}, {userId:"G543534534534t44", bid:200, bidTime:"2017-11-20 20:01"}],
         auctionStart: "2017-09-20",
         auctionEnd: "2017-10-20 19:00"
       }
     ];
 
-    const action = auctionItemsActions.getAuctionItemsSucceeded(auctionItems);
+    const action = auctionActions.getAuctionItemsSucceeded(auctionItems);
     store.dispatch(action);
 
     const actual = store.getState().auctionItems;

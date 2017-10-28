@@ -1,4 +1,5 @@
-import {AUTHENTICATE_USER} from '../common/actionTypes';
+import {POST_LOGIN,
+        POST_LOGOUT} from '../common/actionTypes';
 import initialState from './initialState';
 
 // IMPORTANT: Note that with Redux, state should NEVER be changed.
@@ -8,10 +9,16 @@ import initialState from './initialState';
 // and update values on the copy.
 export default function userReducer(state = initialState.user, action) {
   switch (action.type) {
-    case AUTHENTICATE_USER:
+    case POST_LOGIN: {
       let newState = Object.assign({}, action.value);
-      newState.authenticated = true;
+      newState.loggedIn = true;
       return newState;
+    }
+    case POST_LOGOUT: {
+      let newState = Object.assign({}, action.value);
+      newState.loggedIn = false;
+      return newState;
+    }
     default:
       return state;
   }

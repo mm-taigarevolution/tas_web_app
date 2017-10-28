@@ -1,7 +1,7 @@
 import * as types from '../common/actionTypes';
 
-export function errorOccurred(value) {
+export function putErrorOccurred(value) {
   return {
-    type: types.ERROR_OCCURRED, value
+    type: types.PUT_ERROR_OCCURRED, value
   };
 }

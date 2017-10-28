@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container,
          Row,
-         Col,
          Card,
          CardBody,
          CardTitle,
@@ -15,12 +14,6 @@ import { Container,
 
  const buttonStyle = {
    margin: '5px 0px'
- };
-
- const warningStyle = {
-   margin: '5px 0px',
-   fontSize: '14px',
-   color: 'red'
  };
 
 const AuthenticationItem = ({isBusy, onGoogleAuthRequired, onFacebookAuthRequired}) => {

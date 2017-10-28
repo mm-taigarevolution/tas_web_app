@@ -1,7 +1,7 @@
 import * as types from '../common/actionTypes';
 
-export function updateKeyword(value) {
+export function putKeyword(value) {
   return {
-    type: types.UPDATE_KEYWORD, value
+    type: types.PUT_KEYWORD, value
   };
 }

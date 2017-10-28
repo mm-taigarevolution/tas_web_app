@@ -1,5 +1,9 @@
-import {GET_AUCTION_ITEM_BY_ID, TIMER_TICK, POST_BID_AUCTION_ITEM} from '../common/actionTypes';
+import {GET_AUCTION_ITEM_BY_ID,
+        PUT_AUCTION_ITEM,
+        POST_TIMER_TICK,
+        POST_BID} from '../common/actionTypes';
 import initialState from './initialState';
+import {updateTimeRemaining} from './tools';
 
 // IMPORTANT: Note that with Redux, state should NEVER be changed.
 // State is considered immutable. Instead,
@@ -8,46 +12,36 @@ import initialState from './initialState';
 // and update values on the copy.
 export default function auctionItemReducer(state = initialState.auctionItem, action) {
   switch (action.type) {
-    case GET_AUCTION_ITEM_BY_ID:
-    case POST_BID_AUCTION_ITEM:
-      state = Object.assign({}, action.value);
-      // fall through to calculate time remaining
-    case TIMER_TICK:
+    case GET_AUCTION_ITEM_BY_ID: {
+      let newState = updateTimeRemaining(action.value);
+      return newState;
+    }
+    case PUT_AUCTION_ITEM: {
+      let newState = updateTimeRemaining(action.value);
+      return newState;
+    }
+    case POST_TIMER_TICK: {
       if(state.id.length > 0) {
-        let newState = Object.assign({}, state);
-        let end = new Date(newState.auctionEnd);
-        let current = new Date();
-
-        if(current < end) {
-          let seconds = Math.floor((end - current)/1000);
-          let secondsPerDay = 3600*24;
-          let secondsPerHour = 3600;
-          let secondsPerMinute = 60;
-
-          let days = Math.floor(parseFloat(seconds / secondsPerDay));
-          seconds -= days*secondsPerDay;
-          let hours = Math.floor(parseFloat(seconds / secondsPerHour));
-          seconds -= hours*secondsPerHour;
-          let minutes = Math.floor(parseFloat(seconds / secondsPerMinute));
-          seconds -= minutes*secondsPerMinute;
-
-          newState.bid_time_remaining_days = days;
-          newState.bid_time_remaining_hours = hours;
-          newState.bid_time_remaining_minutes = minutes;
-          newState.bid_time_remaining_seconds = seconds;
-          newState.active = true;
-        }
-
-        else {
-          newState.bid_time_remaining_days = 0;
-          newState.bid_time_remaining_hours = 0;
-          newState.bid_time_remaining_minutes = 0;
-          newState.bid_time_remaining_seconds = 0;
-          newState.active = false;
-        }
+        let newState = updateTimeRemaining(state);
         return newState;
       }
       return state;
+    }
+    case POST_BID: {
+      let bidContainer = action.value;
+
+      if(state.id.length > 0 &&
+         state.id == bidContainer.itemId) {
+        let bids = Object.assign([], state.bids);
+        bids.push(bidContainer.bid);
+
+        let newState = Object.assign({}, state);
+        newState.bids = Object.assign([], bids);
+
+        return newState;
+      }
+      return state;
+    }
     default:
       return state;
   }

@@ -9,42 +9,49 @@ import {toastr} from 'react-redux-toastr';
 class AuthenticationPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      loginBusy: false
+    };
 
     this.onGoogleAuthRequired = this.onGoogleAuthRequired.bind(this);
     this.onFacebookAuthRequired = this.onFacebookAuthRequired.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!nextProps.isBusy) {
+    if(this.state.loginBusy) {
       if(nextProps.errorOccurred) {
         toastr.error('Authentication failed', 'Please re-check your credentials.');
+        this.setState({loginBusy: false});
       }
+      else if(nextProps.user.loggedIn) {
+        let userName = nextProps.user.firstName + ' ' + nextProps.user.lastName;
+        toastr.success('Nice to see you, ' + userName +'!');
 
-      else if(nextProps.user.authenticated) {
         if(nextProps.forwardTo.length > 0) {
-          toastr.success('Authentication succeeded');
-          this.context.router.history.push(nextProps.forwardTo);
+          this.context.router.history.replace(nextProps.forwardTo);
         }
         else {
-          this.context.router.history.back();
+          this.context.router.history.goBack();
         }
+        this.setState({loginBusy: false});
       }
     }
   }
 
   onGoogleAuthRequired(e) {
     e.preventDefault();
-    this.props.userActions.authenticateUser("Google");
+    this.setState({loginBusy: true});
+    this.props.userActions.loginUser("Google");
   }
 
   onFacebookAuthRequired(e) {
     e.preventDefault();
-    this.props.userActions.authenticateUser("Facebook");
+    this.setState({loginBusy: true});
+    this.props.userActions.loginUser("Facebook");
   }
 
   render() {
-    let isBusy = this.props.isBusy;
-
+    let isBusy = this.props.isBusy && this.state.loginBusy;
     return (
       <AuthenticationItem isBusy={isBusy}
                           onGoogleAuthRequired={this.onGoogleAuthRequired}
@@ -54,8 +61,9 @@ class AuthenticationPage extends React.Component {
 }
 
 AuthenticationPage.propTypes = {
-  forwardTo: PropTypes.string.isRequired,
+  forwardTo: PropTypes.string,
   user: PropTypes.object,
+  loginBusy: PropTypes.bool,
   isBusy: PropTypes.bool,
   errorOccurred: PropTypes.bool,
   userActions: PropTypes.object.isRequired
@@ -75,12 +83,12 @@ AuthenticationPage.contextTypes = {
 //
 function mapStateToProps(state, ownProps) {
   let queryString = require('query-string');
-  let queryItem = ownProps.location.search.length > 0 ? queryString.parse(ownProps.location.search) : "";
+  let forwardTo = ownProps.location.search.length > 0 ? queryString.parse(ownProps.location.search).forwardTo : '';
 
   return {
-    forwardTo: queryItem.forwardTo,
+    forwardTo: forwardTo,
     user: state.user,
-    isBusy: state.numberOfBusyOperations > 0,
+    isBusy: state.busy.isBusy,
     errorOccurred: state.errorOccurred
   };
 }

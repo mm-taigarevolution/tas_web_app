@@ -3,31 +3,43 @@ export default {
   keyword: '',
   auctionItem: {
     id: '',
-    thumbnailUrl: '',
+    imageUrls: [],
     title: '',
-    itemLocation: '',
+    description: '',
     startPrice: 0,
     bids: [],
+    minimumBidStep: 0,
     auctionStart: '',
     auctionEnd: '',
-    active: true
+    createdBy: '',
+    created: '',
+    updated: '',
+    itemLocation: '',
+    contactInfo: '',
+    paymentInfo: '',
+    deliveryInfo: '',
+    active: false
   },
   user: {
-    uid: '',
+    userId: '',
     firstName: '',
     lastName: '',
     address: '',
     postalCode: '',
     city: '',
     country: '',
-    authenticated: false
+    loggedIn: false
   },
-  bid: {
+  bidDraft: {
     itemId: '',
+    userId: '',
     minimumBidAmount: 0,
     bidStep: 0,
     bidAmount: 0
   },
-  numberOfBusyOperations: 0,
+  busy: {
+    isBusy: false,
+    numberOfBusyOperations: 0
+  },
   errorOccurred: false
 };

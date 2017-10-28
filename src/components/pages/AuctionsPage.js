@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as auctionItemsActions from '../../actions/auctionItemsActions';
+import * as auctionActions from '../../actions/auctionActions';
 import * as keywordActions from '../../actions/keywordActions';
 import * as timerActions from '../../actions/timerActions';
 import { CardDeck } from 'reactstrap';
 import AuctionListItem from '../controls/AuctionListItem';
 import SearchBar from '../controls/SearchBar';
-import Header from '../controls/Header';
+import TitleBar from '../stateful/TitleBar';
 
 class AuctionsPage extends React.Component {
   constructor(props, context) {
@@ -23,7 +23,6 @@ class AuctionsPage extends React.Component {
   //
   componentDidMount() {
     this.props.timerActions.startTimer();
-    this.props.auctionItemsActions.getAuctionItems();
   }
 
   componentWillUnmount() {
@@ -35,12 +34,17 @@ class AuctionsPage extends React.Component {
   //
   onDetailsRequired(e) {
     e.preventDefault();
+    let items = this.props.filteredAuctionItems.filter(auctionItem => auctionItem.id == e.target.parentElement.id);
+    if(items.length > 0) {
+      this.props.auctionActions.putAuctionItem(items[0]);
+    }
+
     this.context.router.history.push('/'+e.target.parentElement.id);
   }
 
-  onKeywordChanged(event) {
+  onKeywordChanged(e) {
     e.preventDefault();
-    this.props.keywordActions.updateKeyword(e.target.value.toLowerCase());
+    this.props.keywordActions.putKeyword(e.target.value.toLowerCase());
   }
 
   //
@@ -50,17 +54,18 @@ class AuctionsPage extends React.Component {
     let isBusy = this.props.isBusy;
     let errorOccurred = this.props.errorOccurred;
     let items = this.props.filteredAuctionItems;
+    let hasItems = this.props.auctionItems.length > 0;
 
     return (
       <div>
-        <Header/>
+        <TitleBar/>
         <SearchBar onKeywordChanged={this.onKeywordChanged}/>
-        {isBusy &&
+        {isBusy && !hasItems &&
           <div>
             <p>Loading...</p>
           </div>
         }
-        {!isBusy &&
+        {hasItems &&
           <div>
             {errorOccurred == false &&
               <div>
@@ -96,11 +101,12 @@ class AuctionsPage extends React.Component {
 // Prop types for the page
 //
 AuctionsPage.propTypes = {
+  auctionItems: PropTypes.array,
   filteredAuctionItems: PropTypes.array,
   keyword: PropTypes.string,
   isBusy: PropTypes.bool,
   errorOccurred: PropTypes.bool,
-  auctionItemsActions: PropTypes.object.isRequired,
+  auctionActions: PropTypes.object.isRequired,
   keywordActions: PropTypes.object.isRequired,
   timerActions: PropTypes.object.isRequired
 };
@@ -118,16 +124,14 @@ AuctionsPage.contextTypes = {
 // This will trigger componentWillReceiveProps for setting the props to component's state
 //
 function mapStateToProps(state) {
-  let errorOccurred = state.errorOccurred;
-  let busy = state.numberOfBusyOperations > 0;
-  let keyword = state.keyword;
   let filtered = state.keyword.length > 0 ? state.auctionItems.filter(auctionItem => auctionItem.title.toLowerCase().includes(state.keyword)) : state.auctionItems;
 
   return {
+    auctionItems: state.auctionItems,
     filteredAuctionItems: filtered,
-    isBusy: busy,
-    errorOccurred: errorOccurred,
-    keyword: keyword
+    isBusy: state.busy.isBusy,
+    errorOccurred: state.errorOccurred,
+    keyword: state.keyword
   };
 }
 
@@ -136,7 +140,7 @@ function mapStateToProps(state) {
 //
 function mapDispatchToProps(dispatch) {
   return {
-    auctionItemsActions: bindActionCreators(auctionItemsActions, dispatch),
+    auctionActions: bindActionCreators(auctionActions, dispatch),
     keywordActions: bindActionCreators(keywordActions, dispatch),
     timerActions: bindActionCreators(timerActions, dispatch)
   };
