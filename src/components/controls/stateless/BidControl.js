@@ -13,7 +13,7 @@ import { Container,
          InputGroup,
          Input,
          InputGroupAddon } from 'reactstrap';
-import TimeRemaining from '../controls/TimeRemaining';
+import TimeRemainingControl from '../stateless/TimeRemainingControl';
 
 const colStyle = {
   fontSize: '16px',
@@ -49,9 +49,8 @@ const buttonStyle = {
   textAlign: 'right'
 };
 
-const AuctionBidItem = ({auctionItem, bidDraft, onBidAmountChanged, onCancelRequired, onBidRequired}) => {
-  let numberOfAuctions = auctionItem.bids.length;
-  let currentPrice = numberOfAuctions > 0 ? auctionItem.bids[numberOfAuctions-1].bidAmount: auctionItem.startPrice;
+const BidControl = ({auctionItem, bidDraft, onBidAmountChanged, onCancelRequired, onBidRequired}) => {
+  let currentPrice = auctionItem.currentPrice;
   let defaultBidAmount = bidDraft.minimumBidAmount;
   let currentBidAmount = bidDraft.bidAmount;
   let bidStep = bidDraft.bidStep;
@@ -79,12 +78,12 @@ const AuctionBidItem = ({auctionItem, bidDraft, onBidAmountChanged, onCancelRequ
               <p>Time left:</p>
             </Col>
             <Col>
-              <TimeRemaining  style={timeRemainingStyle}
-                              days={auctionItem.bid_time_remaining_days}
-                              hours={auctionItem.bid_time_remaining_hours}
-                              minutes={auctionItem.bid_time_remaining_minutes}
-                              seconds={auctionItem.bid_time_remaining_seconds}
-                              active={auctionItem.active}/>
+              <TimeRemainingControl style={timeRemainingStyle}
+                                    days={auctionItem.bid_time_remaining_days}
+                                    hours={auctionItem.bid_time_remaining_hours}
+                                    minutes={auctionItem.bid_time_remaining_minutes}
+                                    seconds={auctionItem.bid_time_remaining_seconds}
+                                    active={auctionItem.active}/>
             </Col>
           </Row>
           <Row>
@@ -109,7 +108,8 @@ const AuctionBidItem = ({auctionItem, bidDraft, onBidAmountChanged, onCancelRequ
             </Col>
             <Col style={colStyle}>
               <InputGroup>
-                <Input defaultValue={defaultBidAmount}
+                <Input id="bidAmountInput"
+                       defaultValue={defaultBidAmount}
                        type="number"
                        min={defaultBidAmount}
                        step={bidStep}
@@ -128,10 +128,12 @@ const AuctionBidItem = ({auctionItem, bidDraft, onBidAmountChanged, onCancelRequ
         </Container>
       </CardBody>
       <CardFooter>
-        <Button style={buttonStyle}
+        <Button id="cancelBidButton"
+                style={buttonStyle}
                 color="secondary"
                 onClick={onCancelRequired}>Cancel</Button>
-        <Button style={buttonStyle}
+        <Button id="doBidButton"
+                style={buttonStyle}
                 color="primary"
                 disabled={bidButtonDisabled}
                 onClick={onBidRequired}>Bid</Button>
@@ -140,7 +142,7 @@ const AuctionBidItem = ({auctionItem, bidDraft, onBidAmountChanged, onCancelRequ
   );
 };
 
-AuctionBidItem.propTypes = {
+BidControl.propTypes = {
   auctionItem: PropTypes.object.isRequired,
   bidDraft: PropTypes.object.isRequired,
   onBidAmountChanged: PropTypes.func.isRequired,
@@ -148,4 +150,4 @@ AuctionBidItem.propTypes = {
   onBidRequired: PropTypes.func.isRequired
 };
 
-export default AuctionBidItem;
+export default BidControl;

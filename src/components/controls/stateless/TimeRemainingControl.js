@@ -14,7 +14,7 @@ const timeRemainingEnding = {
   color: 'red'
 };
 
-const TimeRemaining = ({days,hours,minutes,seconds,active}) => {
+const TimeRemainingControl = ({days,hours,minutes,seconds,active}) => {
   return (
     <div>
       {active &&
@@ -25,7 +25,7 @@ const TimeRemaining = ({days,hours,minutes,seconds,active}) => {
                 <p style={timeRemainingActive}>{days}d {hours}h</p>
               }
               {hours == 0 &&
-                <p style={timeRemainingActive}>{days}d</p>                
+                <p style={timeRemainingActive}>{days}d</p>
               }
             </div>
           }
@@ -48,7 +48,7 @@ const TimeRemaining = ({days,hours,minutes,seconds,active}) => {
   );
 };
 
-TimeRemaining.propTypes = {
+TimeRemainingControl.propTypes = {
   days: PropTypes.number,
   hours: PropTypes.number,
   minutes: PropTypes.number,
@@ -56,4 +56,4 @@ TimeRemaining.propTypes = {
   active: PropTypes.bool.isRequired
 };
 
-export default TimeRemaining;
+export default TimeRemainingControl;

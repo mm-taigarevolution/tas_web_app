@@ -7,6 +7,7 @@ export default {
     title: '',
     description: '',
     startPrice: 0,
+    currentPrice: 0,
     bids: [],
     minimumBidStep: 0,
     auctionStart: '',

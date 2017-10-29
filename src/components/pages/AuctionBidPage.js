@@ -5,14 +5,15 @@ import {bindActionCreators} from 'redux';
 import * as auctionActions from '../../actions/auctionActions';
 import * as timerActions from '../../actions/timerActions';
 import * as bidActions from '../../actions/bidActions';
-import AuctionBidItem from '../controls/AuctionBidItem';
+import BidControl from '../controls/stateless/BidControl';
 import {toastr} from 'react-redux-toastr';
 
 class AuctionBidPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      bidBusy: false
+      bidBusy: false,
+      closedToastShown: false
     };
     this.onBidAmountChanged = this.onBidAmountChanged.bind(this);
     this.onCancelRequired = this.onCancelRequired.bind(this);
@@ -42,8 +43,10 @@ class AuctionBidPage extends React.Component {
         this.setState({bidBusy: false});
       }
     }
-    else if(!active){
+    else if(!active &&
+            !this.state.closedToastShown){
       toastr.info('Bid closed');
+      this.setState({closedToastShown: true});
     }
   }
 
@@ -77,11 +80,11 @@ class AuctionBidPage extends React.Component {
           <p>User must be logged in before making the bid.</p>
         }
         {loggedIn &&
-           <AuctionBidItem auctionItem={auctionItem}
-                           bidDraft={bidDraft}
-                           onBidAmountChanged={this.onBidAmountChanged}
-                           onCancelRequired={this.onCancelRequired}
-                           onBidRequired={this.onBidRequired}/>
+           <BidControl auctionItem={auctionItem}
+                       bidDraft={bidDraft}
+                       onBidAmountChanged={this.onBidAmountChanged}
+                       onCancelRequired={this.onCancelRequired}
+                       onBidRequired={this.onBidRequired}/>
         }
       </div>
     );
@@ -104,7 +107,8 @@ AuctionBidPage.propTypes = {
   auctionActions: PropTypes.object.isRequired,
   timerActions: PropTypes.object.isRequired,
   bidActions: PropTypes.object.isRequired,
-  bidBusy: PropTypes.bool
+  bidBusy: PropTypes.bool,
+  closedToastShown: PropTypes.bool
 };
 
 function mapStateToProps(state) {

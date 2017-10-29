@@ -17,20 +17,20 @@ const containerStyle = {
   margin: '0px'
 };
 
-const BidHistory = ({bids}) => {
+const BidHistoryControl = ({bids}) => {
   let items = bids;
-  let count = bids.length;
+  let numberOfBids = bids.length;
 
   return (
     <Container style={containerStyle}>
       <Row>
         <Col className="text-left"><p style={titleStyle}>Bid history</p></Col>
-        <Col className="text-right"><p style={titleStyle}>{count} bids</p></Col>
+        <Col className="text-right"><p style={titleStyle}>{numberOfBids} bids</p></Col>
       </Row>
-      {count > 0 &&
+      {numberOfBids > 0 &&
         <div>
           {items.map(item => (
-            <Row style={rowStyle} key={item.bidAmount}>
+            <Row style={rowStyle} key={item.bidTime}>
               <Col className="text-left">{item.bidAmount} €</Col>
               <Col className="text-center">{item.bidTime}</Col>
               <Col className="text-right">{item.userId}</Col>
@@ -38,17 +38,17 @@ const BidHistory = ({bids}) => {
           )}
         </div>
       }
-      {count == 0 &&
+      {numberOfBids == 0 &&
         <div>
-          <p>No bids at the moment</p>
+          <p>No bids yet</p>
         </div>
       }
     </Container>
   );
 };
 
-BidHistory.propTypes = {
+BidHistoryControl.propTypes = {
   bids: PropTypes.array.isRequired,
 };
 
-export default BidHistory;
+export default BidHistoryControl;

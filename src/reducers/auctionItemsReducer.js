@@ -15,8 +15,23 @@ export default function auctionItemsReducer(state = initialState.auctionItems, a
       let newState = [];
       let newItems = action.value;
       if(newItems.length > 0) {
-        newItems.map(function(item) {
+         newItems.map(function(item) {
           let updatedItem = updateTimeRemaining(item);
+          let bids = Object.assign([], updatedItem.bids);
+
+          if(bids.length > 0) {
+            // sort from highest bid to lowest
+            bids.sort(function(a,b){
+              return b.bidAmount - a.bidAmount;
+            });
+            updatedItem.bids = Object.assign([], bids);
+            updatedItem.currentPrice = bids[0].bidAmount;
+          }
+
+          else {
+            updatedItem.currentPrice = updatedItem.startPrice;
+          }
+
           newState.push(updatedItem);
         });
       }
@@ -42,8 +57,15 @@ export default function auctionItemsReducer(state = initialState.auctionItems, a
             let bids = Object.assign([], item.bids);
             bids.push(bidContainer.bid);
 
+            // sort from highest bid to lowest
+            bids.sort(function(a,b){
+              return b.bidAmount - a.bidAmount;
+            });
+
             let newItem = Object.assign({}, item);
             newItem.bids = Object.assign([], bids);
+            newState.currentPrice = bids[0].bidAmount;
+
             newState.push(newItem);
           }
           else {

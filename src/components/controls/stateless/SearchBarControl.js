@@ -2,17 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {InputGroup, Input} from 'reactstrap';
 
-const SearchBar = ({onKeywordChanged}) => {
+const SearchBarControl = ({onKeywordChanged}) => {
   return (
     <InputGroup>
-      <Input placeholder="Enter your keyword here"
+      <Input id="keywordInput"
+             placeholder="Enter your keyword here"
              onChange={onKeywordChanged}/>
     </InputGroup>
   );
 };
 
-SearchBar.propTypes = {
+SearchBarControl.propTypes = {
   onKeywordChanged: PropTypes.func.isRequired
 };
 
-export default SearchBar;
+export default SearchBarControl;

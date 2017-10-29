@@ -31,10 +31,10 @@ class UsersApi {
       }, delay.mockApiTimeout);
     });
   }
+  
   static logoutUser() {
     return new Promise((resolve) => {
       setTimeout(() => {
-        let user
         resolve(loggedOutUser);
       }, delay.mockApiTimeout);
     });

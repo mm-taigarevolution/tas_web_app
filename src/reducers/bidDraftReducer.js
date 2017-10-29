@@ -17,10 +17,9 @@ export default function bidReducer(state = initialState.bidDraft, action) {
     case PUT_AUCTION_ITEM: {
       let newState = Object.assign({}, state);
       let auctionItem = action.value;
-      let numberOfAuctions = auctionItem.bids.length;
-      let highestBid = numberOfAuctions > 0 ? auctionItem.bids[numberOfAuctions-1].bidAmount: auctionItem.startPrice;
+      let currentPrice = auctionItem.currentPrice;
       let bidStep = auctionItem.minimumBidStep;
-      let minimumBidAmount = highestBid + bidStep;
+      let minimumBidAmount = currentPrice + bidStep;
 
       newState.itemId = auctionItem.id;
       newState.minimumBidAmount = minimumBidAmount;

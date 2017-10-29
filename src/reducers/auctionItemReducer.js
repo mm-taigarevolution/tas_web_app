@@ -35,8 +35,14 @@ export default function auctionItemReducer(state = initialState.auctionItem, act
         let bids = Object.assign([], state.bids);
         bids.push(bidContainer.bid);
 
+        // sort from highest bid to lowest
+        bids.sort(function(a,b){
+          return b.bidAmount - a.bidAmount;
+        });
+
         let newState = Object.assign({}, state);
         newState.bids = Object.assign([], bids);
+        newState.currentPrice = bids[0].bidAmount;
 
         return newState;
       }

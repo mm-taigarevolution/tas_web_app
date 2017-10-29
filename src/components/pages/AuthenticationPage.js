@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as userActions from '../../actions/userActions';
-import AuthenticationItem from '../controls/AuthenticationItem';
+import AuthenticationControl from '../controls/stateless/AuthenticationControl';
 import {toastr} from 'react-redux-toastr';
 
 class AuthenticationPage extends React.Component {
@@ -53,9 +53,9 @@ class AuthenticationPage extends React.Component {
   render() {
     let isBusy = this.props.isBusy && this.state.loginBusy;
     return (
-      <AuthenticationItem isBusy={isBusy}
-                          onGoogleAuthRequired={this.onGoogleAuthRequired}
-                          onFacebookAuthRequired={this.onFacebookAuthRequired}/>
+      <AuthenticationControl isBusy={isBusy}
+                             onGoogleAuthRequired={this.onGoogleAuthRequired}
+                             onFacebookAuthRequired={this.onFacebookAuthRequired}/>
     );
   }
 }

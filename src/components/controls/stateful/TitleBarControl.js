@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as userActions from '../../actions/userActions';
+import * as userActions from '../../../actions/userActions';
 import {toastr} from 'react-redux-toastr';
 import { Container,
          Row,
@@ -14,7 +14,7 @@ const containerStyle = {
   margin: '10px 0px 30px 0px'
 };
 
-class TitleBar extends React.Component {
+class TitleBarControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -61,14 +61,16 @@ class TitleBar extends React.Component {
           </Col>
           {!loggedIn &&
             <Col className="text-right">
-              <Button color="primary"
+              <Button id="loginButton"
+                      color="primary"
                       disabled={busy}
                       onClick={this.onLoginRequired}>Login</Button>
             </Col>
           }
           {loggedIn &&
             <Col className="text-right">
-              <Button color="secondary"
+              <Button id="logoutButton"
+                      color="secondary"
                       disabled={busy}
                       onClick={this.onLogoutRequired}>Logout</Button>
             </Col>
@@ -79,7 +81,7 @@ class TitleBar extends React.Component {
   }
 }
 
-TitleBar.propTypes = {
+TitleBarControl.propTypes = {
   user: PropTypes.object.isRequired,
   logoutBusy: PropTypes.bool,
   userActions: PropTypes.object.isRequired
@@ -88,7 +90,7 @@ TitleBar.propTypes = {
 //
 // Context types for the page
 //
-TitleBar.contextTypes = {
+TitleBarControl.contextTypes = {
   router: PropTypes.object
 };
 
@@ -112,4 +114,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TitleBar);
+export default connect(mapStateToProps, mapDispatchToProps)(TitleBarControl);

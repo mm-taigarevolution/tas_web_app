@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Row, Col, Card, CardBody, CardTitle, CardSubtitle, CardText, Button, UncontrolledCarousel } from 'reactstrap';
-import TimeRemaining from '../controls/TimeRemaining';
-import BidHistory from '../controls/BidHistory';
+import TimeRemainingControl from './TimeRemainingControl';
+import BidHistoryControl from './BidHistoryControl';
 
 const chapterStyle = {
   margin: '10px 0px 0px 0px',
@@ -38,11 +38,10 @@ const bidButtonStyle = {
   color: 'white'
 };
 
-const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
+const AuctionDetailsControl = ({auctionItem, onNewBidRequired}) => {
   let autoPlay = false;
   let bidButtonDisabled = !auctionItem.active;
-  let numberOfAuctions = auctionItem.bids.length;
-  let currentPrice = numberOfAuctions > 0 ? auctionItem.bids[numberOfAuctions-1].bidAmount: auctionItem.startPrice;
+  let currentPrice = auctionItem.currentPrice;
 
   let carouselItems = auctionItem.imageUrls.map(imageUrl => {
     return {
@@ -61,16 +60,17 @@ const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
           </Col>
           <Col className="text-right">
             <CardSubtitle style={priceStyle}>{currentPrice} €</CardSubtitle>
-            <Button style={bidButtonStyle}
+            <Button id="bidButton"
+                    style={bidButtonStyle}
                     disabled={bidButtonDisabled}
                     onClick={onNewBidRequired}
                     value={auctionItem.id}>Make a bid</Button>
-            <TimeRemaining  style={timeRemainingStyle}
-                            days={auctionItem.bid_time_remaining_days}
-                            hours={auctionItem.bid_time_remaining_hours}
-                            minutes={auctionItem.bid_time_remaining_minutes}
-                            seconds={auctionItem.bid_time_remaining_seconds}
-                            active={auctionItem.active}/>
+            <TimeRemainingControl style={timeRemainingStyle}
+                                  days={auctionItem.bid_time_remaining_days}
+                                  hours={auctionItem.bid_time_remaining_hours}
+                                  minutes={auctionItem.bid_time_remaining_minutes}
+                                  seconds={auctionItem.bid_time_remaining_seconds}
+                                  active={auctionItem.active}/>
           </Col>
         </Row>
         <Row>
@@ -93,7 +93,7 @@ const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
             <CardText style={chapterBodyStyle}>{auctionItem.contactInfo}</CardText>
           </div>
           <div style={chapterStyle}>
-            <BidHistory bids={auctionItem.bids}/>
+            <BidHistoryControl bids={auctionItem.bids}/>
           </div>
         </Row>
       </CardBody>
@@ -101,9 +101,9 @@ const AuctionDetailsItem = ({auctionItem, onNewBidRequired}) => {
   );
 };
 
-AuctionDetailsItem.propTypes = {
+AuctionDetailsControl.propTypes = {
   auctionItem: PropTypes.object.isRequired,
   onNewBidRequired: PropTypes.func.isRequired
 };
 
-export default AuctionDetailsItem;
+export default AuctionDetailsControl;

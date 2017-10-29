@@ -1,8 +1,7 @@
 export function updateTimeRemaining(item){
-  let originalItem = item;
+  let newItem = Object.assign({}, item);
 
-  if(originalItem.id.length > 0) {
-    let newItem = Object.assign({}, originalItem);
+  if(newItem.id.length > 0) {
     let end = new Date(newItem.auctionEnd);
     let current = new Date();
 
@@ -33,9 +32,7 @@ export function updateTimeRemaining(item){
       newItem.bid_time_remaining_seconds = 0;
       newItem.active = false;
     }
-
-    return newItem;
   }
 
-  return originalItem;
+  return newItem;
 }

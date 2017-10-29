@@ -6,9 +6,9 @@ import * as auctionActions from '../../actions/auctionActions';
 import * as keywordActions from '../../actions/keywordActions';
 import * as timerActions from '../../actions/timerActions';
 import { CardDeck } from 'reactstrap';
-import AuctionListItem from '../controls/AuctionListItem';
-import SearchBar from '../controls/SearchBar';
-import TitleBar from '../stateful/TitleBar';
+import AuctionListItemControl from '../controls/stateless/AuctionListItemControl';
+import SearchBarControl from '../controls/stateless/SearchBarControl';
+import TitleBarControl from '../controls/stateful/TitleBarControl';
 
 class AuctionsPage extends React.Component {
   constructor(props, context) {
@@ -32,14 +32,9 @@ class AuctionsPage extends React.Component {
   //
   // Event handlers from stateless components
   //
-  onDetailsRequired(e) {
-    e.preventDefault();
-    let items = this.props.filteredAuctionItems.filter(auctionItem => auctionItem.id == e.target.parentElement.id);
-    if(items.length > 0) {
-      this.props.auctionActions.putAuctionItem(items[0]);
-    }
-
-    this.context.router.history.push('/'+e.target.parentElement.id);
+  onDetailsRequired(auctionItem) {
+    this.props.auctionActions.putAuctionItem(auctionItem);
+    this.context.router.history.push('/'+auctionItem.id);
   }
 
   onKeywordChanged(e) {
@@ -58,8 +53,8 @@ class AuctionsPage extends React.Component {
 
     return (
       <div>
-        <TitleBar/>
-        <SearchBar onKeywordChanged={this.onKeywordChanged}/>
+        <TitleBarControl/>
+        <SearchBarControl onKeywordChanged={this.onKeywordChanged}/>
         {isBusy && !hasItems &&
           <div>
             <p>Loading...</p>
@@ -77,9 +72,9 @@ class AuctionsPage extends React.Component {
                 {items.length > 0 &&
                   <CardDeck>
                     {items.map(auctionItem => (
-                      <AuctionListItem key={auctionItem.id}
-                                       auctionItem={auctionItem}
-                                       onDetailsRequired={this.onDetailsRequired}/>))
+                      <AuctionListItemControl key={auctionItem.id}
+                                              auctionItem={auctionItem}
+                                              onDetailsRequired={this.onDetailsRequired}/>))
                     }
                   </CardDeck>
                 }

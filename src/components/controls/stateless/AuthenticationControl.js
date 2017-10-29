@@ -16,7 +16,7 @@ import { Container,
    margin: '5px 0px'
  };
 
-const AuthenticationItem = ({isBusy, onGoogleAuthRequired, onFacebookAuthRequired}) => {
+const AuthenticationControl = ({isBusy, onGoogleAuthRequired, onFacebookAuthRequired}) => {
     return (
       <Card style={cardStyle}>
         <CardBody>
@@ -28,13 +28,15 @@ const AuthenticationItem = ({isBusy, onGoogleAuthRequired, onFacebookAuthRequire
               <p>Please authenticate to TAS before making the bid.</p>
             </Row>
             <Row>
-              <Button style={buttonStyle}
+              <Button id="loginByGoogleButton"
+                      style={buttonStyle}
                       color="primary"
                       disabled={isBusy}
                       onClick={onGoogleAuthRequired}>Google login</Button>
             </Row>
             <Row>
-              <Button style={buttonStyle}
+              <Button id="loginByFacebookButton"
+                      style={buttonStyle}
                       color="primary"
                       disabled={isBusy}
                       onClick={onFacebookAuthRequired}>Facebook login</Button>
@@ -50,10 +52,10 @@ const AuthenticationItem = ({isBusy, onGoogleAuthRequired, onFacebookAuthRequire
   );
 };
 
-AuthenticationItem.propTypes = {
+AuthenticationControl.propTypes = {
   isBusy: PropTypes.bool.isRequired,
   onGoogleAuthRequired: PropTypes.func.isRequired,
   onFacebookAuthRequired: PropTypes.func.isRequired,
 };
 
-export default AuthenticationItem;
+export default AuthenticationControl;

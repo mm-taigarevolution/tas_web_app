@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as auctionActions from '../../actions/auctionActions';
 import * as timerActions from '../../actions/timerActions';
-import AuctionDetailsItem from '../controls/AuctionDetailsItem';
-import TitleBar from '../stateful/TitleBar';
+import AuctionDetailsControl from '../controls/stateless/AuctionDetailsControl';
+import TitleBarControl from '../controls/stateful/TitleBarControl';
 
 class AuctionDetailsPage extends React.Component {
   constructor(props, context) {
@@ -44,7 +44,7 @@ class AuctionDetailsPage extends React.Component {
 
     return (
       <div>
-        <TitleBar/>
+        <TitleBarControl/>
         {isBusy && !auctionItemValid &&
           <p>Loading...</p>
         }
@@ -54,8 +54,8 @@ class AuctionDetailsPage extends React.Component {
           </div>
         }
         {errorOccurred == false &&
-         <AuctionDetailsItem auctionItem={auctionItem}
-                             onNewBidRequired={this.onNewBidRequired}/>
+         <AuctionDetailsControl auctionItem={auctionItem}
+                                onNewBidRequired={this.onNewBidRequired}/>
         }
       </div>
     );
