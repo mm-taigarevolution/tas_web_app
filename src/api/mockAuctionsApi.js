@@ -46,7 +46,7 @@ const auctionItems = [
     title: "Donkey Kong console",
     description: "Classic console. In great condition.",
     startPrice: 50,
-    bids: [{userId:"G543534534534t43", bidAmount: 100, bidTime:"Sun Oct 20 2017 19:00:43 GMT+0200 (Eastern Europe Standard Time)"}, {userId:"G543534534534t44", bidAmount: 100, bidTime:"Sun Oct 21 2017 19:00:43 GMT+0200 (Eastern Europe Standard Time)"}],
+    bids: [{userId:"G543534534534t43", bidAmount: 100, bidTime:"Sun Oct 20 2017 19:00:43 GMT+0200 (Eastern Europe Standard Time)"}, {userId:"G543534534534t44", bidAmount: 150, bidTime:"Sun Oct 21 2017 19:00:43 GMT+0200 (Eastern Europe Standard Time)"}],
     minimumBidStep: 50,
     auctionStart: "2017-10-12T12:03Z",
     auctionEnd: "2017-11-26T17:50Z",
