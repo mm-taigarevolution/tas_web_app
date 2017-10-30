@@ -14,7 +14,7 @@ export default class Root extends Component {
           <ConnectedRouter history={history}>
             <App />
           </ConnectedRouter>
-          <ReduxToastr  timeOut={2000}
+          <ReduxToastr  timeOut={3000}
                         newestOnTop={false}
                         preventDuplicates
                         position="top-center"

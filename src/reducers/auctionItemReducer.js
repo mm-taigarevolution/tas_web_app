@@ -14,6 +14,22 @@ export default function auctionItemReducer(state = initialState.auctionItem, act
   switch (action.type) {
     case GET_AUCTION_ITEM_BY_ID: {
       let newState = updateTimeRemaining(action.value);
+
+      let bids = Object.assign([], newState.bids);
+
+      if(bids.length > 0) {
+        // sort from highest bid to lowest
+        bids.sort(function(a,b){
+          return b.bidAmount - a.bidAmount;
+        });
+        newState.bids = Object.assign([], bids);
+        newState.currentPrice = bids[0].bidAmount;
+      }
+
+      else {
+        newState.currentPrice = updatedItem.startPrice;
+      }
+
       return newState;
     }
     case PUT_AUCTION_ITEM: {
