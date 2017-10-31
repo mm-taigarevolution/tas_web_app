@@ -19,7 +19,9 @@ export default {
     contactInfo: '',
     paymentInfo: '',
     deliveryInfo: '',
-    active: false
+    active: false,
+    new: false,
+    recentlyUpdated: false
   },
   user: {
     userId: '',

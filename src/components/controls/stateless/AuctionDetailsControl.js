@@ -8,7 +8,9 @@ const chapterStyle = {
   margin: '10px 0px 0px 0px',
   padding: '10px',
   border: '1px dotted lightgray',
-  width: '100%'
+  width: '100%',
+  borderRadius: '5px',
+  boxShadow: '1px 1px 1px lightgray'
 };
 
 const chapterTitleStyle = {
@@ -29,7 +31,19 @@ const priceStyle = {
 };
 
 const timeRemainingStyle = {
-  margin: '10px 0px 10px 0px'
+  fontSize: '16px',
+  fontWeight: 'bold',
+  color: 'gray',
+  margin: '10px 0px 10px 0px',
+  padding: '0px'
+};
+
+const timeRemainingEndingStyle = {
+  fontSize: '16px',
+  fontWeight: 'bold',
+  color: 'red',
+  margin: '10px 0px 10px 0px',
+  padding: '0px'
 };
 
 const bidButtonStyle = {
@@ -65,12 +79,13 @@ const AuctionDetailsControl = ({auctionItem, onNewBidRequired}) => {
                     disabled={bidButtonDisabled}
                     onClick={onNewBidRequired}
                     value={auctionItem.id}>Make a bid</Button>
-            <TimeRemainingControl style={timeRemainingStyle}
-                                  days={auctionItem.bid_time_remaining_days}
-                                  hours={auctionItem.bid_time_remaining_hours}
-                                  minutes={auctionItem.bid_time_remaining_minutes}
-                                  seconds={auctionItem.bid_time_remaining_seconds}
-                                  active={auctionItem.active}/>
+                  <TimeRemainingControl days={auctionItem.bid_time_remaining_days}
+                                        hours={auctionItem.bid_time_remaining_hours}
+                                        minutes={auctionItem.bid_time_remaining_minutes}
+                                        seconds={auctionItem.bid_time_remaining_seconds}
+                                        active={auctionItem.active}
+                                        activeStyle={timeRemainingStyle}
+                                        endingStyle={timeRemainingEndingStyle}/>
           </Col>
         </Row>
         <Row>

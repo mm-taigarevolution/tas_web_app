@@ -1,4 +1,4 @@
-export function updateTimeRemaining(item){
+export function updateTimeProperties(item){
   let newItem = Object.assign({}, item);
 
   if(newItem.id.length > 0) {
@@ -32,6 +32,14 @@ export function updateTimeRemaining(item){
       newItem.bid_time_remaining_seconds = 0;
       newItem.active = false;
     }
+
+    // check statuses
+    let start = new Date(newItem.auctionStart);
+    let updated = new Date(newItem.updated);
+    let dayinMs = 86400000;
+
+    newItem.new = Math.floor((new Date() - start) <= dayinMs)? true : false;
+    newItem.recentlyUpdated = Math.floor((new Date() - updated) <= dayinMs)? true : false;
   }
 
   return newItem;

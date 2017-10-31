@@ -40,13 +40,24 @@ const cardStyle = {
   maxWidth: '100%'
 };
 
-const timeRemainingStyle = {
-  margin: '10px 0px 10px 0px'
-};
-
 const buttonStyle = {
   margin: '0px 10px',
   textAlign: 'right'
+};
+
+const timeRemainingStyle = {
+  fontSize: '16px',
+  fontWeight: 'normal',
+  margin: '0px',
+  padding: '0px'
+};
+
+const timeRemainingEndingStyle = {
+  fontSize: '16px',
+  fontWeight: 'bold',
+  color: 'red',
+  margin: '0px',
+  padding: '0px'
 };
 
 const BidControl = ({auctionItem, bidDraft, onBidAmountChanged, onCancelRequired, onBidRequired}) => {
@@ -78,12 +89,13 @@ const BidControl = ({auctionItem, bidDraft, onBidAmountChanged, onCancelRequired
               <p>Time left:</p>
             </Col>
             <Col>
-              <TimeRemainingControl style={timeRemainingStyle}
-                                    days={auctionItem.bid_time_remaining_days}
+              <TimeRemainingControl days={auctionItem.bid_time_remaining_days}
                                     hours={auctionItem.bid_time_remaining_hours}
                                     minutes={auctionItem.bid_time_remaining_minutes}
                                     seconds={auctionItem.bid_time_remaining_seconds}
-                                    active={auctionItem.active}/>
+                                    active={auctionItem.active}
+                                    activeStyle={timeRemainingStyle}
+                                    endingStyle={timeRemainingEndingStyle}/>
             </Col>
           </Row>
           <Row>

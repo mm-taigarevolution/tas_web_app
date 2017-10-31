@@ -2,7 +2,7 @@ import {GET_AUCTION_ITEMS,
         POST_TIMER_TICK,
         POST_BID} from '../common/actionTypes';
 import initialState from './initialState';
-import {updateTimeRemaining} from './tools';
+import {updateTimeProperties} from './tools';
 
 // IMPORTANT: Note that with Redux, state should NEVER be changed.
 // State is considered immutable. Instead,
@@ -16,7 +16,7 @@ export default function auctionItemsReducer(state = initialState.auctionItems, a
       let newItems = action.value;
       if(newItems.length > 0) {
          newItems.map(function(item) {
-          let updatedItem = updateTimeRemaining(item);
+          let updatedItem = updateTimeProperties(item);
           let bids = Object.assign([], updatedItem.bids);
 
           if(bids.length > 0) {
@@ -41,7 +41,7 @@ export default function auctionItemsReducer(state = initialState.auctionItems, a
       let newState = [];
       if(state.length > 0) {
         state.map(function(item) {
-          let updatedItem = updateTimeRemaining(item);
+          let updatedItem = updateTimeProperties(item);
           newState.push(updatedItem);
         });
       }

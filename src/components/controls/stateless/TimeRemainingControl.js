@@ -1,20 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const timeRemainingActive = {
-  fontSize: '16px'
-};
-
-const timeRemainingInactive = {
-  fontSize: '16px'
-};
-
-const timeRemainingEnding = {
-  fontSize: '16px',
-  color: 'red'
-};
-
-const TimeRemainingControl = ({days,hours,minutes,seconds,active}) => {
+const TimeRemainingControl = ({days,hours,minutes,seconds,active,activeStyle,endingStyle,endedStyle}) => {
   return (
     <div>
       {active &&
@@ -22,27 +9,27 @@ const TimeRemainingControl = ({days,hours,minutes,seconds,active}) => {
           {days > 0 &&
             <div>
               {hours > 0 &&
-                <p style={timeRemainingActive}>{days}d {hours}h</p>
+                <p style={activeStyle}>{days}d {hours}h</p>
               }
               {hours == 0 &&
-                <p style={timeRemainingActive}>{days}d</p>
+                <p style={activeStyle}>{days}d</p>
               }
             </div>
           }
           {days == 0 &&
             <div>
               {hours > 0 &&
-                <p style={timeRemainingActive}>{hours}h {minutes}min</p>
+                <p style={activeStyle}>{hours}h {minutes}min</p>
               }
               {hours == 0 &&
-                <p style={timeRemainingEnding}>{minutes}min {seconds}s</p>
+                <p style={endingStyle}>{minutes}min {seconds}s</p>
               }
             </div>
           }
         </div>
       }
       {!active &&
-        <p style={timeRemainingInactive}>Closed</p>
+        <p style={endedStyle}>Closed</p>
       }
     </div>
   );
@@ -53,7 +40,10 @@ TimeRemainingControl.propTypes = {
   hours: PropTypes.number,
   minutes: PropTypes.number,
   seconds: PropTypes.number,
-  active: PropTypes.bool.isRequired
+  active: PropTypes.bool.isRequired,
+  activeStyle: PropTypes.object,
+  endingStyle: PropTypes.object,
+  endedStyle: PropTypes.object
 };
 
 export default TimeRemainingControl;

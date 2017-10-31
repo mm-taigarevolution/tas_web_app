@@ -1,24 +1,66 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Card, CardImg, CardBody, CardSubtitle, CardText, Row, Col } from 'reactstrap';
+import {Media, Container, Row, Col, Badge } from 'reactstrap';
 import TimeRemainingControl from './TimeRemainingControl';
 
-const cardStyle = {
-  maxWidth: '260px'
+const containerStyle = {
+  margin: '15px',
+  padding: '10px',
+  border: '1px dotted gray',
+  width: '100%',
+  borderRadius: '5px',
+  boxShadow: '3px 2px 2px lightgray'
 };
 
-const imgStyle = {
-  width: '258px',
-  height: '258px'
-};
-
-const subTitleStyle = {
+const titleStyle = {
   fontWeight: 'bold',
+  fontSize: '24px',
+  color: 'gray',
+  margin: '0px',
+  padding: '0px'
+};
+
+const captionStyle = {
+  margin: '4px 0px 0px 0px',
+  fontWeight: 'normal',
+  fontSize: '14px',
   color: 'gray'
 };
 
-const priceStyle = {
-  fontSize: '16px'
+const imgStyle = {
+  width: '120px',
+  height: '120px'
+};
+
+const bodyStyle = {
+  padding: '0px 15px'
+};
+
+const smallTitleStyle = {
+  fontSize: '14px',
+  color: 'gray',
+  margin: '0px',
+  padding: '0px'
+};
+
+const remarkStyle = {
+  fontSize: '18px',
+  fontWeight: 'bold',
+  color: 'gray',
+  margin: '4px 0px 0px 0px',
+  padding: '0px'
+};
+
+const timeRemainingEndingStyle = {
+  fontSize: '18px',
+  fontWeight: 'bold',
+  color: 'red',
+  margin: '4px 0px 0px 0px',
+  padding: '0px'
+};
+
+const placeholderStyle = {
+  height: '34px'
 };
 
 const AuctionListItemControl = ({auctionItem, onDetailsRequired}) => {
@@ -27,37 +69,70 @@ const AuctionListItemControl = ({auctionItem, onDetailsRequired}) => {
   let auctionItemImg = auctionItem.imageUrls.length > 0 ? auctionItem.imageUrls[0] : null;
 
   return (
-    <Card style={cardStyle}
-          id="auctionListItemCard"
-          onClick={() => onDetailsRequired(auctionItem)}>
-      <CardImg style={imgStyle} src={auctionItemImg} alt="image" />
-      <CardBody>
-        <CardSubtitle style={subTitleStyle}>{auctionItem.title}</CardSubtitle>
-        <CardText>{auctionItem.itemLocation}</CardText>
-        <Row>
-          <Col sm="6" className="text-left">
-            {numberOfBids > 0 &&
-              <p>{numberOfBids} bids</p>
-            }
-            {numberOfBids == 0 &&
-              <p>No bids yet</p>
-            }
-          </Col>
-        </Row>
-        <Row>
-          <Col sm="6" className="text-left">
-            <p style={priceStyle}>{currentPrice} €</p>
-          </Col>
-          <Col sm="6" className="text-right">
-            <TimeRemainingControl days={auctionItem.bid_time_remaining_days}
-                                  hours={auctionItem.bid_time_remaining_hours}
-                                  minutes={auctionItem.bid_time_remaining_minutes}
-                                  seconds={auctionItem.bid_time_remaining_seconds}
-                                  active={auctionItem.active}/>
-          </Col>
-        </Row>
-      </CardBody>
-    </Card>
+    <div style={containerStyle}>
+      <Media id="auctionListItemCard"
+             onClick={() => onDetailsRequired(auctionItem)}>
+        <Media left>
+          <Media object style={imgStyle} src={auctionItemImg} alt="image" />
+        </Media>
+        <Media right body>
+          <Container>
+            <Row>
+              <Col className="text-left" xs="auto">
+                <p style={titleStyle}>{auctionItem.title}</p>
+                <p style={captionStyle}>{auctionItem.itemLocation}</p>
+              </Col>
+              <Col className="text-right">
+                {!auctionItem.active &&
+                  <Badge color="secondary">Closed</Badge>
+                }
+                {auctionItem.new &&
+                  <Badge color="success">New</Badge>
+                }
+                {!auctionItem.new &&
+                  auctionItem.recentlyUpdated &&
+                  <Badge color="info">Updated 24H</Badge>
+                }
+              </Col>
+            </Row>
+            <Row style={placeholderStyle}>
+            </Row>
+            <Row>
+              <Col sm="6" className="text-left">
+                {auctionItem.active &&
+                  <div>
+                    {numberOfBids > 0 &&
+                      <p style={smallTitleStyle}>{numberOfBids} bids</p>
+                    }
+                    {numberOfBids == 0 &&
+                      <p style={smallTitleStyle}>Start price</p>
+                    }
+                  </div>
+                }
+                {!auctionItem.active &&
+                  <p style={smallTitleStyle}>Final price</p>
+                }
+                <p style={remarkStyle}>{currentPrice} €</p>
+              </Col>
+              <Col className="text-right">
+                {auctionItem.active &&
+                  <div>
+                    <p style={smallTitleStyle}>Time remaining</p>
+                    <TimeRemainingControl days={auctionItem.bid_time_remaining_days}
+                                          hours={auctionItem.bid_time_remaining_hours}
+                                          minutes={auctionItem.bid_time_remaining_minutes}
+                                          seconds={auctionItem.bid_time_remaining_seconds}
+                                          active={auctionItem.active}
+                                          activeStyle={remarkStyle}
+                                          endingStyle={timeRemainingEndingStyle}/>
+                  </div>
+                }
+              </Col>
+            </Row>
+          </Container>
+        </Media>
+      </Media>
+    </div>
   );
 };
 
