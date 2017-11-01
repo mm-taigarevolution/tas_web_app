@@ -90,6 +90,7 @@ const AuctionListItemControl = ({auctionItem, onDetailsRequired}) => {
                   <Badge color="success">New</Badge>
                 }
                 {!auctionItem.new &&
+                  auctionItem.active &&
                   auctionItem.recentlyUpdated &&
                   <Badge color="info">Updated 24H</Badge>
                 }
