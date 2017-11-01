@@ -10,8 +10,9 @@ import { Container,
          Button} from 'reactstrap';
 
 const containerStyle = {
-  padding: '0px 1px',
-  margin: '10px 0px 30px 0px'
+  padding: '0px',
+  margin: '10px 0px 30px 0px',
+  width: '100%'
 };
 
 class TitleBarControl extends React.Component {
@@ -55,26 +56,23 @@ class TitleBarControl extends React.Component {
     return (
       <Container style={containerStyle}>
         <Row>
-          <Col xs="auto"
-               className="text-left">
+          <Col sm="10" className="text-left">
             <h3>Taiga Auction System</h3>
           </Col>
-          {!loggedIn &&
-            <Col className="text-right">
+          <Col sm="2" className="text-right">
+            {!loggedIn &&
               <Button id="loginButton"
                       color="primary"
                       disabled={busy}
                       onClick={this.onLoginRequired}>Login</Button>
-            </Col>
-          }
-          {loggedIn &&
-            <Col className="text-right">
+            }
+            {loggedIn &&
               <Button id="logoutButton"
                       color="secondary"
                       disabled={busy}
                       onClick={this.onLogoutRequired}>Logout</Button>
-            </Col>
-          }
+            }
+          </Col>
         </Row>
       </Container>
     );
