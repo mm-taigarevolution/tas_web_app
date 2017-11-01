@@ -31,3 +31,11 @@ input.small { width: 46px; }
   margin: 10px;
   min-width: 260px;
 }
+
+.route-wrapper {
+  position: relative;
+}
+
+.route-wrapper > div {
+  position: absolute;
+}

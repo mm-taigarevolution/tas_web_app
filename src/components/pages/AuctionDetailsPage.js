@@ -6,6 +6,12 @@ import * as auctionActions from '../../actions/auctionActions';
 import * as timerActions from '../../actions/timerActions';
 import AuctionDetailsControl from '../controls/stateless/AuctionDetailsControl';
 import TitleBarControl from '../controls/stateful/TitleBarControl';
+import {ThreeBounce} from 'better-react-spinkit';
+
+const spinnerStyle = {
+ display: 'flex',
+ justifyContent: 'center'
+};
 
 class AuctionDetailsPage extends React.Component {
   constructor(props, context) {
@@ -46,7 +52,8 @@ class AuctionDetailsPage extends React.Component {
       <div>
         <TitleBarControl/>
         {isBusy && !auctionItemValid &&
-          <p>Loading...</p>
+          <ThreeBounce color="gray"
+                       style={spinnerStyle}/>
         }
         {errorOccurred == true &&
           <div>
@@ -54,8 +61,9 @@ class AuctionDetailsPage extends React.Component {
           </div>
         }
         {errorOccurred == false &&
-         <AuctionDetailsControl auctionItem={auctionItem}
-                                onNewBidRequired={this.onNewBidRequired}/>
+         !isBusy &&
+           <AuctionDetailsControl auctionItem={auctionItem}
+                                  onNewBidRequired={this.onNewBidRequired}/>
         }
       </div>
     );

@@ -73,6 +73,7 @@ class AuctionBidPage extends React.Component {
     let loggedIn = this.props.user.loggedIn;
     let auctionItem = this.props.auctionItem;
     let bidDraft = this.props.bidDraft;
+    let isBusy = this.state.bidBusy;
 
     return (
       <div>
@@ -82,6 +83,7 @@ class AuctionBidPage extends React.Component {
         {loggedIn &&
            <BidControl auctionItem={auctionItem}
                        bidDraft={bidDraft}
+                       isBusy={isBusy}
                        onBidAmountChanged={this.onBidAmountChanged}
                        onCancelRequired={this.onCancelRequired}
                        onBidRequired={this.onBidRequired}/>

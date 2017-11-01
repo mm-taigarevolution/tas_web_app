@@ -70,13 +70,13 @@ class AuctionsPage extends React.Component {
                   </div>
                 }
                 {items.length > 0 &&
-                  <CardDeck>
+                  <div>
                     {items.map(auctionItem => (
                       <AuctionListItemControl key={auctionItem.id}
                                               auctionItem={auctionItem}
                                               onDetailsRequired={this.onDetailsRequired}/>))
                     }
-                  </CardDeck>
+                  </div>
                 }
               </div>
             }

@@ -4,7 +4,7 @@ import {Media, Container, Row, Col, Badge } from 'reactstrap';
 import TimeRemainingControl from './TimeRemainingControl';
 
 const containerStyle = {
-  margin: '15px',
+  margin: '15px 0px',
   padding: '10px',
   border: '1px dotted gray',
   width: '100%',

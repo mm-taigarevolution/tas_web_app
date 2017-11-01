@@ -14,6 +14,7 @@ import { Container,
          Input,
          InputGroupAddon } from 'reactstrap';
 import TimeRemainingControl from '../stateless/TimeRemainingControl';
+import {ThreeBounce} from 'better-react-spinkit';
 
 const colStyle = {
   fontSize: '16px',
@@ -60,13 +61,24 @@ const timeRemainingEndingStyle = {
   padding: '0px'
 };
 
-const BidControl = ({auctionItem, bidDraft, onBidAmountChanged, onCancelRequired, onBidRequired}) => {
+const buttonRowStyle = {
+  margin: '20px 0px 0px 0px',
+  display: 'flex',
+  justifyContent: 'center'
+};
+
+const spinnerStyle = {
+ display: 'flex',
+ justifyContent: 'center'
+};
+
+const BidControl = ({auctionItem, bidDraft, isBusy, onBidAmountChanged, onCancelRequired, onBidRequired}) => {
   let currentPrice = auctionItem.currentPrice;
   let defaultBidAmount = bidDraft.minimumBidAmount;
   let currentBidAmount = bidDraft.bidAmount;
   let bidStep = bidDraft.bidStep;
-  let bidButtonDisabled = currentBidAmount < defaultBidAmount || !auctionItem.active;
-  let bidInputDisabled = !auctionItem.active;
+  let bidButtonDisabled = currentBidAmount < defaultBidAmount || !auctionItem.active || isBusy;
+  let bidInputDisabled = !auctionItem.active || isBusy;
 
   return (
     <Card style={cardStyle}>
@@ -137,18 +149,24 @@ const BidControl = ({auctionItem, bidDraft, onBidAmountChanged, onCancelRequired
               }
             </Col>
           </Row>
+          <Row style={buttonRowStyle}>
+            <Button id="cancelBidButton"
+                    style={buttonStyle}
+                    color="secondary"
+                    onClick={onCancelRequired}>Cancel</Button>
+            <Button id="doBidButton"
+                    style={buttonStyle}
+                    color="primary"
+                    disabled={bidButtonDisabled}
+                    onClick={onBidRequired}>Bid</Button>
+          </Row>
         </Container>
       </CardBody>
       <CardFooter>
-        <Button id="cancelBidButton"
-                style={buttonStyle}
-                color="secondary"
-                onClick={onCancelRequired}>Cancel</Button>
-        <Button id="doBidButton"
-                style={buttonStyle}
-                color="primary"
-                disabled={bidButtonDisabled}
-                onClick={onBidRequired}>Bid</Button>
+        {isBusy &&
+          <ThreeBounce color="gray"
+                       style={spinnerStyle}/>
+        }
       </CardFooter>
     </Card>
   );
@@ -157,6 +175,7 @@ const BidControl = ({auctionItem, bidDraft, onBidAmountChanged, onCancelRequired
 BidControl.propTypes = {
   auctionItem: PropTypes.object.isRequired,
   bidDraft: PropTypes.object.isRequired,
+  isBusy: PropTypes.object.isRequired,
   onBidAmountChanged: PropTypes.func.isRequired,
   onCancelRequired: PropTypes.func.isRequired,
   onBidRequired: PropTypes.func.isRequired

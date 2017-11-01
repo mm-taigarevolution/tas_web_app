@@ -7,14 +7,20 @@ import { Container,
          CardTitle,
          CardFooter,
          Button} from 'reactstrap';
+import {ThreeBounce} from 'better-react-spinkit';
 
- const cardStyle = {
-   maxWidth: '100%'
- };
+const cardStyle = {
+ maxWidth: '100%'
+};
 
- const buttonStyle = {
-   margin: '5px 0px'
- };
+const buttonStyle = {
+ margin: '5px 0px'
+};
+
+const spinnerStyle = {
+ display: 'flex',
+ justifyContent: 'center'
+};
 
 const AuthenticationControl = ({isBusy, onGoogleAuthRequired, onFacebookAuthRequired}) => {
     return (
@@ -45,7 +51,8 @@ const AuthenticationControl = ({isBusy, onGoogleAuthRequired, onFacebookAuthRequ
         </CardBody>
         <CardFooter>
           {isBusy &&
-            <p>Loading...</p>
+            <ThreeBounce color="gray"
+                         style={spinnerStyle}/>
           }
         </CardFooter>
       </Card>

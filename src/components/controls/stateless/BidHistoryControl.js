@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Table, Badge} from 'reactstrap';
+import {Table, Row, Col, Badge} from 'reactstrap';
 
 const rowStyle = {
   margin: 'inherit',
@@ -23,7 +23,14 @@ const BidHistoryControl = ({bids}) => {
 
   return (
     <div>
-      <p style={titleStyle}>Bid history <Badge color="info">{numberOfBids}</Badge></p>
+      <Row>
+        <Col className="text-left">
+          <p style={titleStyle}>Bid history</p>
+        </Col>
+        <Col className="text-right">
+          <Badge color="info">{numberOfBids}</Badge>
+        </Col>
+      </Row>
       {numberOfBids > 0 &&
         <Table responsive striped>
           <thead>
