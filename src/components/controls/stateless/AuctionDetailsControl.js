@@ -52,6 +52,11 @@ const bidButtonStyle = {
   color: 'white'
 };
 
+const cardStyle = {
+  margin: '0px',
+  padding: '0px'
+};
+
 const AuctionDetailsControl = ({auctionItem, onNewBidRequired}) => {
   let autoPlay = false;
   let bidButtonDisabled = !auctionItem.active;
@@ -65,7 +70,7 @@ const AuctionDetailsControl = ({auctionItem, onNewBidRequired}) => {
   });
 
   return (
-    <Card>
+    <Card style={cardStyle}>
       <CardBody>
         <Row>
           <Col className="text-left">

@@ -7,14 +7,13 @@ const containerStyle = {
   margin: '15px 0px',
   padding: '10px',
   border: '1px dotted gray',
-  width: '100%',
   borderRadius: '5px',
   boxShadow: '3px 2px 2px lightgray'
 };
 
 const titleStyle = {
   fontWeight: 'bold',
-  fontSize: '24px',
+  fontSize: '20px',
   color: 'gray',
   margin: '0px',
   padding: '0px'
