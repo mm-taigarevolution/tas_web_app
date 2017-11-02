@@ -5,10 +5,23 @@ import {bindActionCreators} from 'redux';
 import * as auctionActions from '../../actions/auctionActions';
 import * as keywordActions from '../../actions/keywordActions';
 import * as timerActions from '../../actions/timerActions';
-import { CardDeck } from 'reactstrap';
 import AuctionListItemControl from '../controls/stateless/AuctionListItemControl';
 import SearchBarControl from '../controls/stateless/SearchBarControl';
 import TitleBarControl from '../controls/stateful/TitleBarControl';
+import Transition from 'react-motion-ui-pack';
+import { spring } from 'react-router-transition';
+import {ThreeBounce} from 'better-react-spinkit';
+
+const containerStyle = {
+  margin: '0px',
+  padding: '0px'
+};
+
+const spinnerStyle = {
+ margin: '10px',
+ display: 'flex',
+ justifyContent: 'center'
+};
 
 class AuctionsPage extends React.Component {
   constructor(props, context) {
@@ -50,6 +63,7 @@ class AuctionsPage extends React.Component {
     let errorOccurred = this.props.errorOccurred;
     let items = this.props.filteredAuctionItems;
     let hasItems = this.props.auctionItems.length > 0;
+    let runOnMount = true;
 
     return (
       <div>
@@ -57,11 +71,12 @@ class AuctionsPage extends React.Component {
         <SearchBarControl onKeywordChanged={this.onKeywordChanged}/>
         {isBusy && !hasItems &&
           <div>
-            <p>Loading...</p>
+            <ThreeBounce color="gray"
+                         style={spinnerStyle}/>
           </div>
         }
         {hasItems &&
-          <div>
+          <div style={containerStyle}>
             {errorOccurred == false &&
               <div>
                 {items.length == 0 &&
@@ -70,13 +85,17 @@ class AuctionsPage extends React.Component {
                   </div>
                 }
                 {items.length > 0 &&
-                  <div>
+                  <Transition component="div"
+                              enter={{opacity: 1, translateY: spring(0, {stiffness: 200, damping: 20})}}
+                              leave={{opacity: 0, translateY: 800}}
+                              runOnMount={runOnMount}>
                     {items.map(auctionItem => (
-                      <AuctionListItemControl key={auctionItem.id}
-                                              auctionItem={auctionItem}
-                                              onDetailsRequired={this.onDetailsRequired}/>))
+                      <div key={auctionItem.id}>
+                        <AuctionListItemControl auctionItem={auctionItem}
+                                                onDetailsRequired={this.onDetailsRequired}/>
+                      </div>))
                     }
-                  </div>
+                  </Transition>
                 }
               </div>
             }

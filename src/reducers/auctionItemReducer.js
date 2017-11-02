@@ -27,7 +27,7 @@ export default function auctionItemReducer(state = initialState.auctionItem, act
       }
 
       else {
-        newState.currentPrice = updatedItem.startPrice;
+        newState.currentPrice = newState.startPrice;
       }
 
       return newState;

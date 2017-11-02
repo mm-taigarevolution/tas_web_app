@@ -56,10 +56,10 @@ class TitleBarControl extends React.Component {
     return (
       <Container style={containerStyle}>
         <Row>
-          <Col sm="10" className="text-left">
+          <Col sm="9" className="text-left">
             <h3>Taiga Auction System</h3>
           </Col>
-          <Col sm="2" className="text-right">
+          <Col className="text-right">
             {!loggedIn &&
               <Button id="loginButton"
                       color="primary"
