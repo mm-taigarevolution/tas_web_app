@@ -29,6 +29,7 @@
     "analyze-bundle": "babel-node ./tools/analyzeBundle.js"
   },
   "dependencies": {
+    "better-react-spinkit": "2.0.2",
     "bootstrap": "4.0.0-beta",
     "jquery": "3.2.1",
     "object-assign": "4.1.0",
