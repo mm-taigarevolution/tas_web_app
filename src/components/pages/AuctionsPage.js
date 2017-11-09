@@ -64,11 +64,13 @@ class AuctionsPage extends React.Component {
     let items = this.props.filteredAuctionItems;
     let hasItems = this.props.auctionItems.length > 0;
     let runOnMount = true;
+    let keyword = this.props.keyword;
 
     return (
       <div>
         <TitleBarControl/>
-        <SearchBarControl onKeywordChanged={this.onKeywordChanged}/>
+        <SearchBarControl keyword={keyword}
+                          onKeywordChanged={this.onKeywordChanged}/>
         {isBusy && !hasItems &&
           <div>
             <ThreeBounce color="gray"

@@ -7,10 +7,11 @@ const containerStyle = {
   padding: '0px'
 };
 
-const SearchBarControl = ({onKeywordChanged}) => {
+const SearchBarControl = ({keyword, onKeywordChanged}) => {
   return (
     <InputGroup style={containerStyle}>
       <Input id="keywordInput"
+             value={keyword}
              placeholder="Enter your keyword here"
              onChange={onKeywordChanged}/>
     </InputGroup>
@@ -18,6 +19,7 @@ const SearchBarControl = ({onKeywordChanged}) => {
 };
 
 SearchBarControl.propTypes = {
+  keyword: PropTypes.string.isRequired,
   onKeywordChanged: PropTypes.func.isRequired
 };
 

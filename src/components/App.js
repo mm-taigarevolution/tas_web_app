@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default */
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { spring, AnimatedSwitch } from 'react-router-transition';
+import { AnimatedSwitch } from 'react-router-transition';
 import AuctionsPage from './pages/AuctionsPage';
 import AuctionDetailsPage from './pages/AuctionDetailsPage';
 import AuthenticationPage from './pages/AuthenticationPage';
